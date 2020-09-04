@@ -1,0 +1,314 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    Images
+{% endblock %}
+
+{% block stylesheet %}
+    
+{% endblock %} 
+
+
+{% block body %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Images sur la plateforme
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('core_homepage') }}">
+                    <i class="fa fa-dashboard"></i> Tableau de bord
+                </a>
+            </li>
+            <li class="active"><i class="fa fa-photo"></i> Images</li>
+        </ol>
+    </section>
+
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                x
+            </button>
+            
+                {% autoescape false %}
+                    <p><i class="fa fa-check-circle"></i> {{ message }}</p>
+                {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('del-success') %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                x
+            </button>
+            
+                {% autoescape false %}
+                    <p><i class="fa fa-trash"></i> {{ message }}</p>
+                {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+    <!-- Main content -->
+    <section class="content">
+        
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <span class="glyphicon glyphicon-list-alt"></span> Liste des images
+                </h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-cog"></i>
+                    </button>
+                    <ul class="dropdown-menu slidedown">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target=".bs-addImg">
+                                <i class="fa fa-plus fa-fw"></i> Ajouter une image
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-print fa-fw"></i> Imprimer
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="box-body">
+                <table id="dataTable-img" class="table table-responsive table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for image in images %}
+                        <tr>
+                            <td>
+                                <img class="col-md-12" src="{{ image.webPath }}" alt="{{ image.altImg }}">
+                            </td>
+                            <td class="col-md-6">
+                                <ul class="nav nav-stacked">
+                                    <li class="tooltip-img">
+                                        {% if image.onlImg != false %}
+                                            <button class="btn btn-success" title="Elle est sur le site web" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-globe"></i></button>
+                                        {% else %}
+                                            <button class="btn btn-warning" title="Cette image est hors ligne" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-globe"></i></button>
+                                        {% endif %} &nbsp;
+                                        {% if image.UnionCoop != null %}
+                                            <button class="btn btn-success" title="Elle appartient à {{ image.UnionCoop.sigleUn }}" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-institution"></i></button>
+                                        {% else %}
+                                            <button class="btn btn-warning" title="Elle n'appartient pas à l'union" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-institution"></i></button>
+                                        {% endif %} &nbsp;
+                                        {% if image.Cooperative != null %}
+                                            <button class="btn btn-success" title="Elle appartient à {{ image.Cooperative.sigleCoop }}" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-map-marker"></i></button>
+                                        {% else %}
+                                            <button class="btn btn-warning" title="Elle est sans coopérative" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-map-marker"></i></button>
+                                        {% endif %} &nbsp;
+                                        {% if image.Produit != null %}
+                                            <button class="btn btn-success" title="Elle appartient à {{ image.Produit.nomPrd }}" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-gift"></i></button>
+                                        {% else %}
+                                            <button class="btn btn-warning" title="Elle est sans produit" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-gift"></i></button>
+                                        {% endif %} &nbsp;
+                                        <button class="btn btn-success" title="Dossier d'origine : {{ image.dirImg }}" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-folder-open"></i></button> <br />
+                                        Code de l'image :
+                                        {% if image.id > 10 %}
+                                            0{{ image.id }}/PNG
+                                        {% else %}
+                                            00{{ image.id }}/PNG
+                                        {% endif %}
+                                    </li>
+                                    <li>Il est identifié selon Alt : {{ image.altImg }}</li>
+                                    <li>Type d'image : {{ image.extImg }}</li>
+                                    <li>
+                                        Date d'ajout : {{ image.dateImg|date('d/m/Y à H:i', timezone='Europe/London') }}
+                                    </li>
+                                    <li>
+                                        {% if image.produit != null %}
+                                            Produit : {{ image.produit.nomPrd|capitalize }}&nbsp;&nbsp;
+                                        {% endif %}
+                                        {% if image.cooperative != null %}
+                                            Coopérative : {{ image.cooperative.nomCoop|capitalize }}&nbsp;&nbsp;
+                                        {% endif %}
+                                        
+                                    </li>
+                                </ul>
+                            </td>
+                            <td class="col-md-3 tooltip-img">
+                                <a class="btn bg-orange" title="Modifier" href="{{ path('core_image_mod', {'img': image.id, 'dir': image.dirImg}) }}" data-toggle="tooltip" data-placement="top">
+                                    <i class="fa fa-pencil"></i>
+                                </a>
+                                {% if image.UnionCoop == null and image.Cooperative == null and image.Produit == null %}
+                                    <a class="btn bg-red" title="Supprimer" href="{{ path('core_image_del', {'img': image.id, 'dir': image.dirImg}) }}" data-toggle="tooltip" data-placement="top">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+
+    <!-- Modal d'ajout d'une image -->
+    <div class="modal fade bs-addImg example-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-photo"></i> Nouvelle image
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    
+                    {{ form_start(formImg) }}
+
+                        {{ form_errors(formImg) }}
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group dropzone">
+                                        {{ form_label(formImg.file, "Choisir l'image") }}
+                                        {{ form_errors(formImg.file) }}
+                                        {{ form_widget(formImg.file, {'attr': {'class': 'fallback'}}) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.dirImg, "Enregistrer sous", {'label_attr': {'class': 'control-label'}})}}
+
+                                        {{ form_errors(formImg.dirImg) }}
+                                        
+                                        
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-upload"></i></span>
+                                            {{ form_widget(formImg.dirImg, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.altImg, "Attribut alt", {'label_attr': {'class': 'control-label'}})}}
+
+                                        {% if form_errors(formImg.altImg) != null %}
+                                          <div class="form-group has-error">
+                                              <label class="control-label">{{ form_errors(formImg.altImg) }}</label>
+                                              {{ form_widget(formImg.altImg, {'attr': {'class': 'form-control'}}) }}
+                                          </div>
+                                        {% else %}
+                                            {{ form_widget(formImg.altImg, {'attr': {'class': 'form-control'}}) }}
+                                        {% endif %}
+                                        <p class="help-block">Exemple: ANADER</p>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.onlImg, "Visible sur le site", {'label_attr': {'class': 'control-label'}})}}
+
+                                        {{ form_errors(formImg.onlImg) }}
+                                        
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-globe"></i></span>
+                                            {{ form_widget(formImg.onlImg, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formImg.descImg, "Description", {'label_attr': {'class': 'control-label'}})}}
+
+                                {{ form_errors(formImg.descImg) }}
+                                
+                                {{ form_widget(formImg.descImg, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            {{ form_rest(formImg) }}
+                
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </div>
+                {{ form_end(formImg) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout d'une image -->
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $( function() {
+                $('#dataTable-img').DataTable( {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun image trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">'+
+                        '<option value="10">10</option>'+
+                        '<option value="20">20</option>'+
+                        '<option value="30">30</option>'+
+                        '<option value="40">40</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="-1">Tous</option>'+
+                        '</select> éléments',
+                        "emptyTable": "Aucun achat n'a été enregistré !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                } );
+            } );
+        // tooltip demo
+        $('.tooltip-img').tooltip({
+            selector: "[data-toggle=tooltip]",
+            container: "body"
+        });
+    </script>
+    <!-- DataTables JavaScript -->
+        <script src="/backend/vendor/datatables/js/jquery.dataTables.min.js"></script>
+        <script src="/backend/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+        <script src="/backend/vendor/datatables-responsive/dataTables.responsive.js"></script>
+{% endblock %}
+

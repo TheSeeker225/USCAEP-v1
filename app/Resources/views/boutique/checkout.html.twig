@@ -1,0 +1,220 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Soumettre une commande
+{% endblock %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">
+            Soumission du bon de commande courant
+        </h1>
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('homepage') }}">Accueil</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('boutique') }}">Boutique</a>
+            </li>
+            <li class="breadcrumb-item active">Soumettre un bon de commande</li>
+        </ol>
+        <!-- /.row -->
+        
+        <div class="row position-relative overflow-hidden p-2 p-md-2 m-md-1">
+
+            <div class="col-md-12 text-center">
+                <h2> Conditions d'achat sur cette plateforme </h2>
+                <p class="lead">Below is an example form built entirely with Bootstrap's form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-offset-1 bg-orange p-md-1 col-md-3 text-center">
+
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted"> Mon panier </span>
+                    <span class="badge badge-secondary badge-pill">
+                      {{ listeProduits|length }}
+                    </span>
+                </h4>
+
+                <ul class="list-group mb-3">
+                  {% if listeProduits == null %}
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Aucun produit</h6>
+                            <small class="text-muted">Brief description</small>
+                        </div>
+                        <span class="text-muted">0</span>
+                    </li>
+                  {% else %}
+                      {% for culture in listeProduits %}
+                          <li class="list-group-item d-flex justify-content-between lh-condensed">
+                              <div>
+                                  <h6 class="my-0">
+                                      {% if legume.produit.nomPrd == 'palmier' or legume.produit.nomPrd == 'plantain' %}
+                                          {% if legume.produit.nomPrd == 'palmier' %}
+                                              {{ legume.produit.nomPrd|capitalize }}  à huile
+                                          {% endif %}
+                                          {% if legume.produit.nomPrd == 'plantain' %}
+                                              Banane {{ legume.produit.nomPrd }}
+                                          {% endif %}
+                                      {% else %}
+                                            {{ legume.produit.nomPrd|capitalize }}
+                                      {% endif %}
+                                  </h6>
+                                  <small class="text-muted">Brief description</small>
+                              </div>
+                              <span class="text-muted">
+                                  {{ panier[culture.produit.id] }}
+                              </span>
+                          </li>
+                      {% endfor %}
+                  {% endif %}
+                </ul>
+
+            </div>
+                  
+            <div class="col-md-offset-1 col-md-7">
+                <h4 class="mb-3">Veuillez renseigner vos coordonnées !!</h4>
+                {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                    {{ form_errors(form) }}
+                  
+                  <div class="row">
+
+                      <div class="col-md-12 mb-3">
+
+                          <div class="form-group">
+
+                              {{ form_label(form.client.nomClt, "Nom de l'entreprise") }}
+
+                              <div class="input-group">
+                              <span class="input-group-addon"><i class="fa fa-institution"></i></span>
+                                  {{ form_widget(form.client.nomClt, {'attr':{'class': 'form-control', 'id': 'Username', 'placeholder': 'Coco service'}}) }}
+                              </div>
+                          </div>
+                          <div class="invalid-feedback" style="width: 100%;">
+                              Veuillez indiquer le nom de l'entreprise !
+                          </div>
+
+                      </div>
+
+                      <div class="col-md-12 mb-3">
+                          <div class="form-group">
+
+                              {{ form_label(form.client.emailClt, "E-mail de l'entreprise") }}
+
+                              <div class="input-group">
+                              <span class="input-group-addon">
+                                  @
+                              </span>
+                                  {{ form_widget(form.client.emailClt, {'attr':{'class': 'form-control', 'id': 'email', 'placeholder': 'you@example.com'}}) }}
+                              </div>
+                              
+                          </div>
+                          <div class="invalid-feedback">
+                              Veuillez entrer un email professionnel valide !
+                          </div>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                          <div class="form-group">
+
+                              {{ form_label(form.client.siegeClt, "Siège social de l'entreprise") }}
+
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="fa fa-map-marker"></i></span>
+                                  {{ form_widget(form.client.siegeClt, {'attr':{'class': 'form-control', 'id': 'address', 'placeholder': '1234 Main St'}}) }}
+                              </div>
+                          </div>
+                          <div class="invalid-feedback">
+                              Veuillez préciser le siège de l'entreprise !
+                          </div>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+
+                          <div class="form-group">
+
+                              {{ form_label(form.lieuLivCmd, "Lieu de livraison ") }}
+
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="fa fa-shipping"></i></span>
+                                  {{ form_widget(form.lieuLivCmd, {'attr':{'class': 'form-control', 'id': 'livraison', 'placeholder': '1234 Main St'}}) }}
+                              </div>
+                          </div>
+                          <div class="invalid-feedback">
+                              Veuillez préciser le siège de l'entreprise !
+                          </div>
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+                          
+                          <div class="form-group">
+
+                              {{ form_label(form.client.paysClt, "Pays d'origine") }}
+
+                              <div class="input-group">
+                              <span class="input-group-addon">
+                                  @
+                              </span>
+                                  {{ form_widget(form.client.paysClt, {'attr':{'class': 'form-control', 'id': 'country'}}) }}
+                              </div>
+                              
+                          </div>
+                          <div class="invalid-feedback">
+                              Veuillez indiquer le nom du pays d'origine de votre entreprise !
+                          </div>
+                      </div>
+
+                      <hr class="mb-4">
+
+                      
+                      {{ form_rest(form) }}
+
+                    {% if listeProduits == null %}
+                      <a href="{{ path('boutique') }}" class="btn bg-blue btn-block" >Revenier à la boutique</a>
+                    {% else %}
+                      <button class="btn bg-orange btn-lg btn-block" type="submit">
+                          Soumettre la commande
+                      </button>{% endif %}
+                    
+                  {{ form_end(form) }}
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+    </script>
+{% endblock %}

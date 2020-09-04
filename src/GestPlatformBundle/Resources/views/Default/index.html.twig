@@ -1,0 +1,343 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    Tableau de bord
+{% endblock %}
+
+{% block stylesheet %}
+    
+{% endblock %}   
+
+{% block body %}
+
+    <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Poste de gestionnaire
+                <small>Tableau de bord</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="alert alert-success alert-dismissible">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4>
+                    <span class="glyphicon glyphicon-exclamation-sign"></span> 
+                    Bienvenue sur AgriWeb !
+                </h4>
+
+                <p>
+                    Bienvenue cher gestionnaire ! Ici, vous pourrez enregistrer les approvisionnements, 
+                    gérer les producteurs, les employés et les informations de votre coopérative.
+                    <b>Faites attention lorsque vous effectuez ces opérations courantes</b>. Bon travail à vous !
+                </p>
+            </div>
+
+            {% for message in app.session.flashbag.get('new-liv') %}
+              <div class="alert alert-success col-md-12">
+                  <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  
+                  {% autoescape false %}
+                      <p><i class="fa fa-check"></i> {{ message }}</p>
+                  {% endautoescape %}
+                  
+              </div>
+          {% endfor %}
+
+            <div class="row">
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-blue">
+                        <div class="inner">
+                            <h3>{{ employes|length }}</h3>
+                            <p>Employés</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-briefcase"></i>
+                        </div>
+                        <a href="{{ path('gest_platform_emp') }}" class="small-box-footer">
+                            Voir plus <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-orange">
+                        <div class="inner">
+                            <h3>{{ producteurs|length }}</h3>
+                            <p>Producteurs</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-ios-people"></i>
+                        </div>
+                        <a href="{{ path('gest_platform_mem') }}" class="small-box-footer">
+                            Voir plus <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{ livraisons|length }}</h3>
+                            <p>Livraisons</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-cube"></i>
+                        </div>
+                        <a href="#approvisionnements" class="small-box-footer">
+                            Voir plus <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>10.000</h3>
+                            <p>Tonnage à fournir</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-pinpoint"></i>
+                        </div>
+                        <a class="small-box-footer">
+                            <i class="fa fa-star"></i> Objectif à atteindre 
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+
+                    <div class="box box-default">
+                        <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-map-marker"></i> Récapitulatif sur la coopérative
+                        </h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        </div>
+                        <div class="box-body">
+
+                            <div class="row">
+                                <h3 style="text-align:center;">
+                                    {% autoescape %}
+                                        {{ maCoop.nomCoop|upper|raw }}
+                                    {% endautoescape %}
+                                </h3>
+                                <div class="col-md-5">
+                                    
+                                </div>
+                                <div class="col-md-7">
+                                    <h5><b>Date d'adhésion :</b> {{ maCoop.dateAdhCoop|date('d/m/Y à H:i', timezone='Europe/London') }}</h5>
+                                    <h5><b>Contact(s) :</b> {{ maCoop.contCoop }}</h5>
+                                    <h5><b>Localisation :</b> {{ maCoop.departement.nomDep }}, sous-préfecture de {{ maCoop.sPCoop }}</h5>
+                                    <h5><b>Boîte postale :</b> {{ maCoop.bPCoop }}</h5>
+                                    
+                                    <a href="{{ path('gest_platform_coop', {'coop': maCoop.sigleCoop}) }}" class="btn btn-default pull-right">
+                                        <i class="fa fa-link"></i> Voir plus
+                                    </a>
+                                </div>
+
+                            </div> 
+                                            
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+                
+
+                <div class="col-md-12 col-sm-12">
+
+                    <div class="box box-default collapsed-box">
+                        <div class="box-header with-border">
+                            <h3 class="box-title" id="approvisionnements">
+                                <i class="fa fa-truck"></i> Nos approvisionnements
+                            </h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                
+                                <button type="button" class="btn btn-box-tool btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa fa-cog"></i>
+                                <div class="ripple-container"></div></button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ path('gest_platform_trans_add') }}">
+                                            <i class="fa fa-plus"></i> Nouvelle livraison
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i class="fa fa-print"></i> Imprimer la liste
+                                        </a>
+                                    </li>
+                                </ul>
+                      
+                            </div>
+                        </div>
+                        <div class="box-body">
+
+                            <table id="data_app" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Producteur</th>
+                                    <th>Date d'enregistrement</th>
+                                    <th>Montant payé</th>
+                                    <th>Etat</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for livraison in livraisons %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('gest_platform_trans_view', {'id': livraison.id }) }}" title="Voir plus">
+                                                {% if livraison.id < 10  %}
+                                                    00
+                                                {% endif %}
+                                                {% if livraison.id >= 10 and livraison.id <= 99 %}
+                                                    0
+                                                {% endif %}
+                                                {{ livraison.id }}/COOP/{{ maCoop.id }}/LIV
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{ livraison.membre.sexeMem }} 
+                                            {{ livraison.membre.prenomMem }} 
+                                            {{ livraison.membre.nomMem }}
+                                        </td>
+                                        <td>
+                                            {{ livraison.dateLiv|date('d/m/Y H:i', "Africa/Lagos") }}
+                                        </td>
+                                        <td>{{ livraison.montPayLiv }} F.CFA</td>
+                                        <td>
+                                            <span class="label {% if livraison.etatLiv == 'ET' %}label-success{% else %}label-warning{% endif %}">
+                                                {% if livraison.etatLiv == 'ET' %}
+                                                    Paiement effectué
+                                                {% else %}
+                                                    Paiement en cours
+                                                {% endif %}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+
+            </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Page script -->
+    <script>
+        $(function () {
+
+            $('#data_app').DataTable( {
+                  "language": {
+                      "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                      "infoEmpty": "Aucun achat trouvé !",
+                      "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                      "loadingRecords": "Veuillez patienter quelques instants !",
+                      "lengthMenu": 'Afficher <select class="form-control">'+
+                      '<option value="10">10</option>'+
+                      '<option value="20">20</option>'+
+                      '<option value="30">30</option>'+
+                      '<option value="40">40</option>'+
+                      '<option value="50">50</option>'+
+                      '<option value="-1">Tous</option>'+
+                      '</select> éléments',
+                      "emptyTable": "Aucun achat n'a été enregistré !",
+                      "zeroRecords": "Aucun résultat trouvé !",
+                      "search": "Rechercher :",
+                      "paginate": {
+                          "previous": "Précédant",
+                          "next": "Suivant",
+                          "first": "Premier page",
+                          "last": "Dernière page"
+                      }
+                  }
+              } );
+             $("#dataTable-mem").DataTable(
+                {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun achat trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">Tous</option>' +
+                        '</select> éléments',
+                        "emptyTable": "Aucun achat n'a été enregistré !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                })
+             $("#dataTable-emp").DataTable(
+                {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun achat trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">Tous</option>' +
+                        '</select> éléments',
+                        "emptyTable": "Aucun achat n'a été enregistré !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                })
+        });
+    </script>
+    <!-- DataTables JavaScript -->
+    <script src="/backend/vendor/chartjs/Chart.min.js"></script>
+    <!-- DataTables -->
+    <script src="/backend/v2/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/backend/v2/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    
+{% endblock %}

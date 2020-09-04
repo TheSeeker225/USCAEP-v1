@@ -1,0 +1,147 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block meta %}
+    <meta name="description" content="Présentation et suppression de la coopérative" />
+    <meta name="keywords" content="{{ coop.nomCoop }}, suppression, supprimer" />
+{% endblock %}
+
+{% block title %}
+    Supprimer {{ coop.sigleCoop }}
+{% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+
+{% block body %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ coop.nomCoop }}
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{% if is_granted('ROLE_ADMIN') %}{{ path('core_coop') }}{% else %}{{ path('gestplatform_homepage') }}{% endif %}">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('core_coop') }}">
+                            <i class="fa fa-map"></i> Coopératives
+                        </a>
+                    {% else %}
+                        <a href="#">
+                            <i class="fa fa-map"></i> Coopératives
+                        </a>
+                    {% endif %}
+                </a>
+            </li>
+            <li class="active">
+                <i class="fa fa-trash"></i>
+                Supprimer {{ coop.sigleCoop }}
+            </li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="callout callout-danger">
+            <h4><i class="fa fa-trash"></i> Suppression de la coopérative</h4>
+
+            <p>
+                Cette opération est irréversible. Veuillez bien vérifier la coopérative afin d'être vraiment sûr avant de cliquer sur 
+                <a href="#" data-toggle="modal" data-target="#suppCoop" class="alert-link">Supprimer</a> !
+            </p>
+        </div>
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <span class="glyphicon glyphicon-list-alt"></span> 
+                    Présentation de {{ coop.nomCoop}}
+                </h3>
+            </div>
+            <div class="box-body">
+                    {% if image != null %}
+                        <img class="col-md-6" src="{{ image.webPath }}" alt="{{ image.altImg }}" />
+                    {% endif %} 
+                    
+                    <h3 class="text-center">
+                        {{ coop.nomCoop }}<br>
+                        <small> Membre de l'USCAEP depuis le {{ coop.dateAdhCoop|date('d/m/Y') }}</small>
+                    </h3><br>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-offset-2 col-md-7">
+                        <h4><b>Localisation :</b> {{ coop.departement.nomDep }}, sous-préfecture de {{ coop.sPCoop }}</h4>
+                        <h4><b>Boîte postale :</b> {{ coop.bPCoop }}</h4>
+                        <h4><b>Contact(s) :</b> {{ coop.contCoop }}</h4>
+                    </div>
+                    
+
+                    <div class="col-md-12 tooltip-slider">
+                        <h4>Images de la coopérative {{ coop.sigleCoop }}</h4>
+                        
+                        {% for slider in sliders %}
+                            
+                            <img src="{{ slider.webPath }}" alt="{{ slider.altImg }}" title="{{ slider.altImg }}" data-toggle="tooltip" data-placement="top" class="col-md-2" />
+                            
+                        {% else %}
+                            Aucun slider trouvé
+                        {% endfor %}
+                        <br><br>
+                    </div>
+                    <div class="col-md-12">
+                        {% autoescape false %}
+                            {{ coop.descCoop }} 
+                        {% endautoescape %}
+                    </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+
+
+    <!-- Modal -->
+    <div class="modal fade modal-danger" id="suppCoop" tabindex="-1" role="dialog" aria-labelledby="suppCoop" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="suppCoop"> 
+                        <span class="glyphicon glyphicon-question-sign"></span> Demande de suppression
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                            &Ecirc;tes-vous vraiment sûr de supprimer cette coopérative ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> Non</button>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </div>
+                        {{ form_rest(form) }}
+                    {{ form_end(form) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- /. Modal d'ajout d'une image -->
+    {% block javascripts %}
+        <script type="text/javascript">
+            // tooltip demo
+            $('.tooltip-slider').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
+            });
+        </script>
+    {% endblock %}
+{% endblock %}

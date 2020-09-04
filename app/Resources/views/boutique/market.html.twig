@@ -1,0 +1,420 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Notre boutique
+{% endblock %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">
+            Bienvenue sur notre espace publicitaire
+        </h1>
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('homepage') }}">Accueil</a>
+            </li>
+            <li class="breadcrumb-item active">Boutique</li>
+        </ol>
+        <!-- /.row -->
+
+        <div class="alert alert-info col-md-12">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% for message in app.session.flashbag.get('commande') %}
+                {% autoescape false %}
+                    <p> {{ message }}</p>
+                {% endautoescape %}
+            {% endfor %}
+        </div>
+        
+        <br>
+        <div class="d-md-flex flex-md-equal w-100 my-md-1 pl-md-1 p-3 p-md-3 p-lg-3 m-md-1">
+
+          <div class="bg-dark text-white text-center p-1 p-md-1 col-md-3">
+            
+            <div class="col-md-12 text-center p-3 p-md-3">
+                
+                <h3>Contenu du panier</h3>
+                <hr>
+                <p>
+                    {% if panier|length == 0 %}
+                        Aucun article dans le panier
+                      {% else %}
+                        Votre panier contient {{ panier|length }} produits.
+                      {% endif %}<br>
+                    <a href="{{ path('checkout') }}" class="btn bg-orange btn-block">
+                        <i class="fa fa-paper-plane-o"></i> Soumettre
+                    </a>
+                </p>
+
+            </div>
+
+            <div class="col-md-12 p-3 p-md-3">
+
+                <h3>Catégories</h3>
+                <hr>
+                <div class="list-group">
+                    <a href="#cultures" class="list-group-item">Cultures de rente</a>
+                    <a href="#legumes" class="list-group-item">Céréales</a>
+                    <a href="#fruits" class="list-group-item">Fruits</a>
+                    <a href="#legumes" class="list-group-item">Légumes</a>
+                    <a href="#derives" class="list-group-item">Produits dérivés</a>
+                </div>
+
+            </div>
+
+            <div class="col-md-12 text-center p-3 p-md-3">
+                <h3>Espace membre</h3>
+                <hr>
+                <p> 
+                    <strong class="text-danger">Accès restreint aux membres !!</strong>
+                    <br><br>
+                    <a href="{{ path('login') }}" class="btn bg-orange btn-block">
+                        Se connecter
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+            <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-left overflow-hidden">
+                <!-- Cultures de rente -->
+                <h3 id="cultures">Cultures de rente</h3><hr />
+                <div class="row">
+
+                    {% if not cultures %}
+                        <div class="col-md-12 mb-4 alert alert-danger" role="alert">
+                          Les produits de cette catégorie ne sont pas disponibles
+                        </div>
+                    {% else %} 
+                      {% for culture in cultures %}
+                        <div class="col-md-3 mb-4">
+
+                            <!--Card-->
+                            <div class="card mb-r wow fadeIn" data-wow-delay="0.2s">
+
+                                <!--Card image-->
+                                {% if culture.altImg == culture.produit.nomPrd %}
+                                  <img class="img-fluid" src="{{ culture.webPath }}" alt="{{ culture.altImg }}" />
+                                {% else %}
+                                    <img class="img-fluid" src="/frontend/img/bg-500x300.png" />
+                                {% endif %}
+
+                                <!--Card content-->
+                                <div class="card-body text-center">
+                                    <!--Title-->
+                                    <h5 class="font-bold">
+                                        <strong>
+                                            {% if culture.produit.nomPrd == 'palmier' or culture.produit.nomPrd == 'plantain' %}
+                                                {% if culture.produit.nomPrd == 'palmier' %}
+                                                    {{ culture.produit.nomPrd|capitalize }}  à huile
+                                                {% endif %}
+                                                {% if culture.produit.nomPrd == 'plantain' %}
+                                                    Banane {{ culture.produit.nomPrd }}
+                                                {% endif %}
+                                            {% else %}
+                                                  {{ culture.produit.nomPrd|capitalize }}
+                                            {% endif %}
+                                        </strong>
+                                    </h5>
+                                    <hr>
+                                    <h4>
+                                        <small>
+                                          {% if culture.produit.stockPrd <= 1000 %}
+                                              <span class="badge bg-orange">Stock limité</span>
+                                          {% else %}
+                                              Stock : {{ culture.produit.stockPrd }} Kg
+                                          {% endif %}
+                                        </small>
+                                    </h4>
+
+                                    <a href="{{ path('details_produit', {'prod': culture.produit.nomPrd}) }}" class="btn bg-green btn-sm">
+                                        <i class="fa fa-shopping-basket"></i> Commander 
+                                    </a>
+                                </div>
+
+                            </div>
+                            <!--/.Card-->
+                          
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    
+                </div>
+                <!-- / Cultures de rente -->
+
+                <!-- Céréales -->
+                <h3 id="cereales">Céréales</h3><hr />
+                <div class="row">
+
+                    {% if not cereales %}
+                        <div class="col-md-12 mb-4 alert alert-danger" role="alert">
+                          Les produits de cette catégorie ne sont pas disponibles
+                        </div>
+                    {% else %} 
+                      {% for cereale in cereales %}
+                        <div class="col-md-3 mb-4">
+
+                            <!--Card-->
+                            <div class="card mb-r wow fadeIn" data-wow-delay="0.2s">
+
+                                <!--Card image-->
+                                {% if cereale.altImg == cereale.produit.nomPrd %}
+                                  <img class="img-fluid" src="{{ cereale.webPath }}" alt="{{ cereale.altImg }}" />
+                                {% else %}
+                                    <img class="img-fluid" src="/frontend/img/bg-500x300.png" />
+                                {% endif %}
+
+                                <!--Card content-->
+                                <div class="card-body text-center">
+                                    <!--Title-->
+                                    <h5 class="font-bold">
+                                        <strong>
+                                            {% if cereale.produit.nomPrd == 'palmier' or cereale.produit.nomPrd == 'plantain' %}
+                                                {% if cereale.produit.nomPrd == 'palmier' %}
+                                                    {{ cereale.produit.nomPrd|capitalize }}  à huile
+                                                {% endif %}
+                                                {% if cereale.produit.nomPrd == 'plantain' %}
+                                                    Banane {{ cereale.produit.nomPrd }}
+                                                {% endif %}
+                                            {% else %}
+                                                  {{ cereale.produit.nomPrd|capitalize }}
+                                            {% endif %}
+                                        </strong>
+                                    </h5>
+                                    <hr>
+                                    <h4>
+                                        <small>
+                                          {% if cereale.produit.stockPrd <= 1000 %}
+                                              <span class="badge bg-orange">Stock limité</span>
+                                          {% else %}
+                                              Stock : {{ cereale.produit.stockPrd }} Kg
+                                          {% endif %}
+                                        </small>
+                                    </h4>
+
+                                    <a href="{{ path('details_produit', {'prod': cereale.produit.nomPrd}) }}" class="btn bg-green btn-sm">
+                                        <i class="fa fa-shopping-basket"></i> Commander 
+                                    </a>
+                                </div>
+
+                            </div>
+                            <!--/.Card-->
+                          
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    
+                </div>
+                <!-- / Céréales -->
+
+                <!-- Fruits -->
+                <h3 id="fruits">Fruits</h3><hr>
+                <div class="row">
+
+                    {% if not fruits %}
+                        <div class="col-md-12 mb-4 alert alert-danger" role="alert">
+                          Les produits de cette catégorie ne sont pas disponibles
+                        </div>
+                    {% else %} 
+                      {% for fruit in fruits %}
+                        <div class="col-md-3 mb-4">
+
+                            <!--Card-->
+                            <div class="card mb-r wow fadeIn" data-wow-delay="0.2s">
+
+                                <!--Card image-->
+                                {% if fruit.altImg == fruit.produit.nomPrd %}
+                                  <img class="img-fluid" src="{{ fruit.webPath }}" alt="{{ fruit.altImg }}" />
+                                {% else %}
+                                    <img class="img-fluid" src="/frontend/img/bg-500x300.png" />
+                                {% endif %}
+
+                                <!--Card content-->
+                                <div class="card-body text-center">
+                                    <!--Title-->
+                                    <h5 class="font-bold">
+                                        <strong>
+                                            {% if fruit.produit.nomPrd == 'palmier' or fruit.produit.nomPrd == 'plantain' %}
+                                                {% if fruit.produit.nomPrd == 'palmier' %}
+                                                    {{ fruit.produit.nomPrd|capitalize }}  à huile
+                                                {% endif %}
+                                                {% if fruit.produit.nomPrd == 'plantain' %}
+                                                    Banane {{ fruit.produit.nomPrd }}
+                                                {% endif %}
+                                            {% else %}
+                                                  {{ fruit.produit.nomPrd|capitalize }}
+                                            {% endif %}
+                                        </strong>
+                                    </h5>
+                                    <hr>
+                                    <h4>
+                                        <small>
+                                          {% if fruit.produit.stockPrd <= 1000 %}
+                                              <span class="badge bg-orange">Stock limité</span>
+                                          {% else %}
+                                              Stock : {{ fruit.produit.stockPrd }} Kg
+                                          {% endif %}
+                                        </small>
+                                    </h4>
+
+                                    <a href="{{ path('details_produit', {'prod': fruit.produit.nomPrd}) }}" class="btn bg-green btn-sm">
+                                        <i class="fa fa-shopping-basket"></i> Commander 
+                                    </a>
+                                </div>
+
+                            </div>
+                            <!--/.Card-->
+                          
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    
+                </div>
+                <!-- / Fruits -->
+
+                <!-- Prouits dérivés -->
+                <h3 id="derives">Produits dérivés</h3><hr>
+                <div class="row">
+
+                    {% if not derives %}
+                        <div class="col-md-12 mb-4 alert alert-danger" role="alert">
+                          Les produits de cette catégorie ne sont pas disponibles
+                        </div>
+                    {% else %} 
+                      {% for derive in derives %}
+                        <div class="col-md-3 mb-4">
+
+                            <!--Card-->
+                            <div class="card mb-r wow fadeIn" data-wow-delay="0.2s">
+
+                                <!--Card image-->
+                                {% if derive.altImg == derive.produit.nomPrd %}
+                                  <img class="img-fluid" src="{{ derive.webPath }}" alt="{{ derive.altImg }}" />
+                                {% else %}
+                                    <img class="img-fluid" src="/frontend/img/bg-500x300.png" />
+                                {% endif %}
+
+                                <!--Card content-->
+                                <div class="card-body text-center">
+                                    <!--Title-->
+                                    <h5 class="font-bold">
+                                        <strong>
+                                            {% if derive.produit.nomPrd == 'palmier' or derive.produit.nomPrd == 'plantain' %}
+                                                {% if derive.produit.nomPrd == 'palmier' %}
+                                                    {{ derive.produit.nomPrd|capitalize }}  à huile
+                                                {% endif %}
+                                                {% if derive.produit.nomPrd == 'plantain' %}
+                                                    Banane {{ derive.produit.nomPrd }}
+                                                {% endif %}
+                                            {% else %}
+                                                  {{ derive.produit.nomPrd|capitalize }}
+                                            {% endif %}
+                                        </strong>
+                                    </h5>
+                                    <hr>
+                                    <h4>
+                                        <small>
+                                          {% if derive.produit.stockPrd <= 1000 %}
+                                              <span class="badge bg-orange">Stock limité</span>
+                                          {% else %}
+                                              Stock : {{ derive.produit.stockPrd }} Kg
+                                          {% endif %}
+                                        </small>
+                                    </h4>
+
+                                    <a href="{{ path('details_produit', {'prod': derive.produit.nomPrd}) }}" class="btn bg-green btn-sm">
+                                        <i class="fa fa-shopping-basket"></i> Commander 
+                                    </a>
+                                </div>
+
+                            </div>
+                            <!--/.Card-->
+                          
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    
+                </div>
+                <!-- / Produits dérivés -->
+
+                <!-- Légumes -->
+                <h3 id="legumes">Légumes</h3><hr>
+                <div class="row">
+
+                    {% if not legumes %}
+                        <div class="col-md-12 mb-4 alert alert-danger" role="alert">
+                          Les produits de cette catégorie ne sont pas disponibles
+                        </div>
+                    {% else %} 
+                      {% for legume in legumes %}
+                        <div class="col-md-3 mb-4">
+
+                            <!--Card-->
+                            <div class="card mb-r wow fadeIn" data-wow-delay="0.2s">
+
+                                <!--Card image-->
+                                {% if legume.altImg == legume.produit.nomPrd %}
+                                  <img class="img-fluid" src="{{ legume.webPath }}" alt="{{ legume.altImg }}" />
+                                {% else %}
+                                    <img class="img-fluid" src="/frontend/img/bg-500x300.png" />
+                                {% endif %}
+
+                                <!--Card content-->
+                                <div class="card-body text-center">
+                                    <!--Title-->
+                                    <h5 class="font-bold">
+                                        <strong>
+                                            {% if legume.produit.nomPrd == 'palmier' or legume.produit.nomPrd == 'plantain' %}
+                                                {% if legume.produit.nomPrd == 'palmier' %}
+                                                    {{ legume.produit.nomPrd|capitalize }}  à huile
+                                                {% endif %}
+                                                {% if legume.produit.nomPrd == 'plantain' %}
+                                                    Banane {{ legume.produit.nomPrd }}
+                                                {% endif %}
+                                            {% else %}
+                                                  {{ legume.produit.nomPrd|capitalize }}
+                                            {% endif %}
+                                        </strong>
+                                    </h5>
+                                    <hr>
+                                    <h4>
+                                        <small>
+                                          {% if legume.produit.stockPrd <= 1000 %}
+                                              <span class="badge bg-orange">Stock limité</span>
+                                          {% else %}
+                                              Stock : {{ legume.produit.stockPrd }} Kg
+                                          {% endif %}
+                                        </small> 
+                                    </h4>
+
+                                    <a href="{{ path('details_produit', {'prod': legume.produit.nomPrd}) }}" class="btn bg-green btn-sm">
+                                        <i class="fa fa-shopping-basket"></i> Commander 
+                                    </a>
+                                </div>
+
+                            </div>
+                            <!--/.Card-->
+                          
+                        </div>
+                      {% endfor %}
+                    {% endif %}
+                    
+                </div>
+                <!-- / Produits dérivés -->
+
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block meta %}
+    <meta name="description" content="Modification des informations de l'USCAEP" />
+    <meta name="keywords" content="USCAEP, modifier, modification" />
+{% endblock %}
+
+{% block title %}
+    Modifier USCAEP
+{% endblock %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Opérations sur les informations
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('core_homepage') }}">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('core_union', {'id': uscaep.id}) }}">
+                    <i class="fa fa-instutition"></i> USCAEP
+                </a>
+            </li>
+            <li class="active">
+                <span class="glyphicon glyphicon-pencil"></span> Modifier l'USCAEP
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="callout callout-warning">
+            <h4><span class="glyphicon glyphicon-exclamation-sign"></span> Attention !</h4>
+
+            <p>
+                Toute opération aura des éffets sur la présentation de l'USCAEP sur le site web.
+            </p>
+        </div>
+
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="ion ion-edit"></i> Modifier les informations</h3>
+
+                <div class="box-tools pull-right">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
+                        <i class="fa fa-cog"></i>
+                        <div class="ripple-container"></div>
+                    </a>
+                    <ul class="dropdown-menu slidedown">
+                        <li>
+                            <a class="text-red" href="#" data-toggle="modal" data-target="#suppUn">
+                                <i class="fa fa-trash fa-fw"></i> Supprimer l'union
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body">
+                {{ form_start(form) }}
+
+                      {{ form_errors(form) }}
+
+                      <div class="form-group">
+                        {{ form_label(form.nomUn, "Nom de l'union") }}
+
+                        {% if form_errors(form.nomUn) != null %}
+                          <div class="form-group has-error">
+                              <label class="control-label">{{ form_errors(form.nomUn) }}</label>
+                              {{ form_widget(form.nomUn, {'attr': {'class': 'form-control'}}) }}
+                          </div>
+                        {% else %}
+                            {{ form_widget(form.nomUn, {'attr': {'class': 'form-control'}}) }}
+                        {% endif %}
+                        <p class="help-block">Exemple: Union des planteurs de Côte d'Ivoire</p>
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.siegeUn, "Siège de l'union") }}
+
+                        {% if form_errors(form.siegeUn) != null %}
+                          <div class="form-group has-error">
+                              <label class="control-label">{{ form_errors(form.siegeUn) }}</label>
+                              {{ form_widget(form.siegeUn, {'attr': {'class': 'form-control'}}) }}
+                          </div>
+                        {% else %}
+                            {{ form_widget(form.siegeUn, {'attr': {'class': 'form-control'}}) }}
+                        {% endif %}
+                        <p class="help-block">Exemple: Abobo, 13 BP 456 Abijan 13</p>
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.eMailUn, "Messagerie de l'union") }}
+
+                        {% if form_errors(form.eMailUn) != null %}
+                          <div class="form-group has-error">
+                              <label class="control-label">{{ form_errors(form.eMailUn) }}</label>
+                              {{ form_widget(form.eMailUn, {'attr': {'class': 'form-control'}}) }}
+                          </div>
+                        {% else %}
+                            {{ form_widget(form.eMailUn, {'attr': {'class': 'form-control'}}) }}
+                        {% endif %}
+                        <p class="help-block">Exemple: contact@uscaep.ci</p>
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.heurUn, "Horaires de l'union") }}
+
+                        {% if form_errors(form.heurUn) != null %}
+                          <div class="form-group has-error">
+                              <label class="control-label">{{ form_errors(form.heurUn) }}</label>
+                              {{ form_widget(form.heurUn, {'attr': {'class': 'form-control'}}) }}
+                          </div>
+                        {% else %}
+                            {{ form_widget(form.heurUn, {'attr': {'class': 'form-control'}}) }}
+                        {% endif %}
+                        <p class="help-block">Exemple: Lundi - Vendredi: 7:00 à 15:00</p>
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.telUn, "Contact(s) de l'union") }}
+
+                        {% if form_errors(form.telUn) != null %}
+                          <div class="form-group has-error">
+                              <label class="control-label">{{ form_errors(form.telUn) }}</label>
+                              {{ form_widget(form.telUn, {'attr': {'class': 'form-control'}}) }}
+                          </div>
+                        {% else %}
+                            {{ form_widget(form.telUn, {'attr': {'class': 'form-control'}}) }}
+                        {% endif %}
+                        <p class="help-block">(+225) XXXXXXXX / XXXXXXXX</p>
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.presUn, "Présentation de l'union") }}
+
+                        {{ form_errors(form.presUn) }}
+
+                        {{ form_widget(form.presUn, {'attr': {'class': 'form-control tinymce'}}) }}
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.histUn, "Historique de l'union") }}
+
+                        {{ form_errors(form.histUn) }}
+
+                        {{ form_widget(form.histUn, {'attr': {'class': 'form-control tinymce'}}) }}
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.objetUn, "Objet de l'union") }}
+
+                        {{ form_errors(form.objetUn) }}
+
+                        {{ form_widget(form.objetUn, {'attr': {'class': 'form-control tinymce'}}) }}
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.butUn, "Buts de l'union") }}
+
+                        {{ form_errors(form.butUn) }}
+
+                        {{ form_widget(form.butUn, {'attr': {'class': 'form-control tinymce'}}) }}
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.objectifUn, "Objectifs de l'union") }}
+
+                        {{ form_errors(form.objectifUn) }}
+
+                        {{ form_widget(form.objectifUn, {'attr': {'class': 'form-control tinymce'}}) }}
+                      </div>
+
+                      <div class="form-group">
+                        {{ form_label(form.lnkFbUn, "Page facebook") }}
+
+                        {% if form_errors(form.lnkFbUn) != null %}
+                          <div class="form-group has-error">
+                              <label class="control-label">{{ form_errors(form.lnkFbUn) }}</label>
+                              {{ form_widget(form.lnkFbUn, {'attr': {'class': 'form-control'}}) }}
+                          </div>
+                        {% else %}
+                            {{ form_widget(form.lnkFbUn, {'attr': {'class': 'form-control'}}) }}
+                        {% endif %}
+                        <p class="help-block">Commencez par https://www.facebook.com/ !</p>
+                      </div>
+
+                  {{ form_rest(form) }}
+                    
+                    <button type="submit" class="btn btn-success">Valider</button>
+                    <a href="{{ path('core_homepage') }}" class="btn btn-default pull-right">Fermer</a>
+                {{ form_end(form) }}
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+    <!-- Modal -->
+    <div class="modal modal-danger fade" id="suppUn" tabindex="-1" role="dialog" aria-labelledby="suppUn" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="suppUn">
+                        <i class="ion ion-trash-a"></i> Demande de suppression
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                            &Ecirc;tes-vous vraiment sûr de supprimer cette union ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> Non</button>
+                            <button type="submit" class="btn btn-outline">Supprimer</button>
+                        </div>
+                        {{ form_rest(formSupp) }}
+                    </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            //TinyMCE
+            tinymce.init({
+                selector: "textarea.tinymce",
+                theme: "modern",
+                height: 300,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime media nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern imagetools'
+                ],
+                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                toolbar2: 'print preview media | forecolor backcolor emoticons',
+                image_advtab: true
+            });
+            tinymce.suffix = ".min";
+            tinyMCE.baseURL = '/USCAEP/web/backend/v2/plugins/tinymce';
+        });
+    </script>
+
+{% endblock %}

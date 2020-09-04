@@ -1,0 +1,110 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    Nouvelle livraison
+{% endblock %}
+
+{% block stylesheet %}
+    
+{% endblock %}   
+
+{% block body %}
+
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Nouvelle livraison
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('gest_platform_homepage') }}">
+                    <i class="fa fa-dashboard"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <i class="fa fa-truck"></i> Approvisionnements
+            </li>
+            <li class="active">
+                <i class="fa fa-plus"></i> 
+                Nouvelle livraison
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"> Approvisionner un produit</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="callout callout-warning">
+                            <h4>Avertissement</h4>
+
+                            <p>Veuillez remplir soigneusement les informations suivantes !</p>
+                        </div>
+
+                        {{ form_start(formLign) }}
+
+                        {{ form_errors(formLign) }}
+
+                            {% if app != true %}
+                                <div class="input-group">
+                                    {{ form_label(formLign.livraison.membre, "Nom du producteur :", {'label_attr': {'class': 'input-group-addon'}}) }}
+                                    {{ form_errors(formLign.livraison.membre) }}
+
+                                    {{ form_widget(formLign.livraison.membre, {'attr':{'class': 'form-control'}}) }}
+                                </div>
+                            {% endif %}
+
+                            <div class="input-group">
+                                {{ form_label(formLign.produit, "Nom du produit :", {'label_attr': {'class': 'input-group-addon'}}) }}
+                                {{ form_errors(formLign.produit) }}
+
+                                {{ form_widget(formLign.produit, {'attr':{'class': 'form-control'}}) }}
+                            </div>
+
+                            <div class="input-group">
+                                {{ form_label(formLign.qualPrdLiv, "Qualité du produit :", {'label_attr': {'class': 'input-group-addon'}}) }}
+                                {{ form_errors(formLign.qualPrdLiv) }}
+
+                                {{ form_widget(formLign.qualPrdLiv, {'attr':{'class': 'form-control'}}) }}
+                            </div>
+                        
+                            <div class="input-group">
+                                {{ form_label(formLign.qteFrLiv, "Quantité approvisionnée :", {'label_attr': {'class': 'input-group-addon'}}) }}
+                                {{ form_errors(formLign.qteFrLiv) }}
+
+                                {{ form_widget(formLign.qteFrLiv, {'attr':{'class': 'form-control'}}) }}
+                                <span class="input-group-addon">kilogrammes</span>
+                            </div>
+
+                            <div class="input-group">
+                                {{ form_label(formLign.paPrdLiv, "Prix d'achat :", {'label_attr': {'class': 'input-group-addon'}}) }}
+                                {{ form_errors(formLign.paPrdLiv) }}
+
+                                {{ form_widget(formLign.paPrdLiv, {'attr':{'class': 'form-control'}}) }}
+                                <span class="input-group-addon">francs CFA</span>
+                            </div>
+                            
+
+                            <a href="{{ path('gest_platform_homepage') }}" class="btn btn-primary">Annuler</a>
+                            <button class="btn btn-warning" type="submit">Valider</button>
+
+                        {{ form_rest(formLign) }}
+
+                        {{ form_end(formLign) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    
+{% endblock %}

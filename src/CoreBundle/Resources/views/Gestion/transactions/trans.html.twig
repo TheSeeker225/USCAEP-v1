@@ -1,0 +1,242 @@
+{% extends 'CoreBundle:Default:index.html.twig' %}
+
+{% block meta %}
+    <meta name="description" content="Liste des transactions de l'USCAEP" />
+    <meta name="keywords" content="approvisionnement, commande" />
+{% endblock %}
+
+{% block title %}
+    Transactions
+{% endblock %}
+
+{% block stylesheet %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/backend/v2/plugins/datatables/dataTables.bootstrap.css" />
+{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Transactions de l'USCAEP
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('core_homepage') }}">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </a>
+            </li>
+            <li class="active">
+                <span class="glyphicon glyphicon-sort"></span> Transactions
+            </li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#cmd" data-toggle="tab">Commandes <small class="label label-success">{{ commandes|length }}</small></a></li>
+                <li><a href="#app" data-toggle="tab">Approvisionnements <small class="label label-warning">{{ livraisons|length }}</small></a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="cmd">
+                    <button type="button" class="btn bg-orange pull-right"><i class="glyphicon glyphicon-print"></i> Imprimer</button>
+                    <h4><i class="ion ion-android-cart"></i> Liste des commandes</h4><br>
+                    <table id="data_cmd" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Coordonnées</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                            <th>Action</th>
+                        </tr>
+                        </tr>
+                        </thead>
+        
+                        <tbody>
+                        {% for commande in commandes %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('core_trans_view', {'id': commande.id }) }}" title="Voir plus">
+                                        {% if commande.id < 10  %}
+                                            00
+                                        {% endif %}
+                                        {% if commande.id >= 10 and commande.id <= 99 %}
+                                            0
+                                        {% endif %}
+                                        {{ commande.id }}/2018/CMD
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ commande.client.nomClt }}
+                                </td>
+                                <td>
+                                    {{ commande.client.siegeClt }}<br>
+                                    {{ commande.client.telClt }}<br>
+                                    {{ commande.client.emailClt }}
+                                </td>
+                                <td>
+                                    {{ commande.dateCmd|date('d/m/Y H:i', "Africa/Lagos") }}
+                                </td>
+                                <td>
+                                    <span class="label {% if commande.etatCmd == 'ET' %}label-success{% else %}label-warning{% endif %}">
+                                        {% if commande.etatCmd == 'ET' %}
+                                            Validé et livré
+                                        {% else %}
+                                            En cours de traitement
+                                        {% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Acheteur</th>
+                            <th>Date</th>
+                            <th>Statut</th>
+                            <th>Raison</th>
+                            <th>Action</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+
+
+                </div>
+                <!-- /.tab-pane -->
+                <div class="tab-pane" id="app">
+                    <button type="button" class="btn bg-orange pull-right"><i class="glyphicon glyphicon-print"></i> Imprimer</button>
+                    <h4><i class="ion ion-android-archive"></i> Liste des approvisionnements</h4>
+                    <br>
+                    <table id="data_app" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Producteur</th>
+                            <th>Date d'enregistrement</th>
+                            <th>Montant payé</th>
+                            <th>Etat</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for livraison in livraisons %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('gest_platform_trans_view', {'id': livraison.id }) }}" title="Voir plus">
+                                        {% if livraison.id < 10  %}
+                                            00
+                                        {% endif %}
+                                        {% if livraison.id >= 10 and livraison.id <= 99 %}
+                                            0
+                                        {% endif %}
+                                        {{ livraison.id }}/COOP/{{ livraison.membre.cooperative.id }}/LIV
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ livraison.membre.sexeMem }} 
+                                    {{ livraison.membre.prenomMem }} 
+                                    {{ livraison.membre.nomMem }}
+                                </td>
+                                <td>
+                                    {{ livraison.dateLiv|date('d/m/Y H:i', "Africa/Lagos") }}
+                                </td>
+                                <td>{{ livraison.montPayLiv }} F.CFA</td>
+                                <td>
+                                    <span class="label {% if livraison.etatLiv == 'ET' %}label-success{% else %}label-warning{% endif %}">
+                                        {% if livraison.etatLiv == 'ET' %}
+                                            Paiement effectué
+                                        {% else %}
+                                            Paiement en cours
+                                        {% endif %}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+        </div>
+        <!-- nav-tabs-custom -->
+
+    </section>
+    <!-- /.content -->  
+  
+
+{% endblock %}
+
+    {% block javascripts %}
+      
+      <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+      <script>
+          $( function() {
+              $('#data_cmd').DataTable( {
+                  "language": {
+                      "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                      "infoEmpty": "Aucun achat trouvé !",
+                      "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                      "loadingRecords": "Veuillez patienter quelques instants !",
+                      "lengthMenu": 'Afficher <select class="form-control">'+
+                      '<option value="10">10</option>'+
+                      '<option value="20">20</option>'+
+                      '<option value="30">30</option>'+
+                      '<option value="40">40</option>'+
+                      '<option value="50">50</option>'+
+                      '<option value="-1">Tous</option>'+
+                      '</select> éléments',
+                      "emptyTable": "Aucun achat n'a été enregistré !",
+                      "zeroRecords": "Aucun résultat trouvé !",
+                      "search": "Rechercher :",
+                      "paginate": {
+                          "previous": "Précédant",
+                          "next": "Suivant",
+                          "first": "Premier page",
+                          "last": "Dernière page"
+                      }
+                  }
+              } );
+          } );
+
+      </script>
+      <script>
+          $( function() {
+              $('#data_app').DataTable( {
+                  "language": {
+                      "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                      "infoEmpty": "Aucun achat trouvé !",
+                      "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                      "loadingRecords": "Veuillez patienter quelques instants !",
+                      "lengthMenu": 'Afficher <select class="form-control">'+
+                      '<option value="10">10</option>'+
+                      '<option value="20">20</option>'+
+                      '<option value="30">30</option>'+
+                      '<option value="40">40</option>'+
+                      '<option value="50">50</option>'+
+                      '<option value="-1">Tous</option>'+
+                      '</select> éléments',
+                      "emptyTable": "Aucun achat n'a été enregistré !",
+                      "zeroRecords": "Aucun résultat trouvé !",
+                      "search": "Rechercher :",
+                      "paginate": {
+                          "previous": "Précédant",
+                          "next": "Suivant",
+                          "first": "Premier page",
+                          "last": "Dernière page"
+                      }
+                  }
+              } );
+          } );
+
+      </script>
+      <!-- DataTables -->
+      <script src="/backend/v2/plugins/datatables/jquery.dataTables.min.js"></script>
+      <script src="/backend/v2/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    {% endblock %}

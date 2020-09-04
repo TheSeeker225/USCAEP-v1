@@ -1,0 +1,355 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    Mes employés
+{% endblock %}
+
+{% block stylesheet %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="backend/v2/plugins/datatables/dataTables.bootstrap.css">
+{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Les employés
+            <small>{{ maCoop.nomCoop }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="{{ path('gest_platform_homepage') }}"><i class="fa fa-desktop"></i> Tableau de bord</a></li>
+            <li class="active"><i class="fa fa-briefcase"></i> Employés</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        {% for message in app.session.flashbag.get('add-emp') %}
+            <div class="alert alert-success col-md-12">
+                <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                
+                {% autoescape false %}
+                    <p><i class="fa fa-check-circle"></i> {{ message }}</p>
+                {% endautoescape %}
+                
+            </div>
+        {% endfor %}
+
+        {% for message in app.session.flashbag.get('supp-emp') %}
+            <div class="alert alert-success col-md-12">
+                <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                
+                {% autoescape false %}
+                    <p><i class="fa fa-trash"></i> {{ message }}</p>
+                {% endautoescape %}
+                
+            </div>
+        {% endfor %}
+
+        
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <span class="glyphicon glyphicon-list-alt"></span> Liste des employés
+                </h3>
+
+                <div class="btn-tools pull-right">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-cog"></i>
+                    </button>
+                    <ul class="dropdown-menu slidedown">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target=".bs-addEmp">
+                                <i class="fa fa-user-plus fa-fw"></i> Ajouter un employé
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-print fa-fw"></i> Imprimer
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body">
+                
+                <table width="100%" class="table table-striped table-bordered table-hover" id="dataTable-emp">
+                    <thead>
+                        <tr>
+                            <th>Matricule</th>
+                            <th>Nom complet</th>
+                            <th>Résidence</th>
+                            <th>Poste</th>
+                            <th>Contact(s)</th>
+                            <th>E-mail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for employe in employes %}
+                            <tr class="odd gradeX tooltip-emp">
+                                <td>
+                                    <a href="{{ path('gest_platform_emp_mod', {'id': employe.id }) }}" data-toggle="tooltip" data-placement="top" title="Plus de détails">
+                                        {% if employe.id <= 10 %}
+                                            00{{ employe.id }}/{{ employe.cooperative.id }}/COOP/PRS
+                                        {% else %}
+                                            0{{ employe.id }}/{{ employe.cooperative.id }}/COOP/PRS
+                                        {% endif %}
+                                    </a>
+                                </td>
+                                <td>
+                                    {{ employe.prenomUser }} {{ employe.nomUser }}
+                                </td>
+                                <td>{{ employe.residUser }}</td>
+                                <td class="center">{{ employe.posteUser }}</td>
+                                <td class="center tooltip-emp">
+                                    {{ employe.contUser }}
+                                </td>
+                                <td>
+                                    {% if employe.email != null %}
+                                        {{ employe.email }}
+                                    {% else %}
+                                        Pas d'e-mail
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+
+
+    <!-- Modal d'ajout d'un employé -->
+    <div class="modal fade bs-addEmp example-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-user-plus"></i> Nouvel employé
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formEmp) }}
+
+                        {{ form_errors(formEmp) }}
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.image, "Choisir la photo d'identité", {'label_attr': {'class': 'control-label'}})}}
+
+                                {{ form_errors(formEmp.image) }}
+                                
+                                
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-image"></i></span>
+                                    {{ form_widget(formEmp.image, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(formEmp.prenomUser, "Prénom(s) de l'employé", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formEmp.prenomUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.prenomUser) }}</label>
+                                      {{ form_widget(formEmp.prenomUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.prenomUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.nomUser, "Nom de l'employé", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formEmp.nomUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.nomUser) }}</label>
+                                      {{ form_widget(formEmp.nomUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.nomUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.dateNaisUser, "Date de naissance", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formEmp.dateNaisUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.dateNaisUser) }}</label>
+                                      {{ form_widget(formEmp.dateNaisUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.dateNaisUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.lieuNaisUser, "Lieu de naissance", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formEmp.lieuNaisUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.lieuNaisUser) }}</label>
+                                      {{ form_widget(formEmp.lieuNaisUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.lieuNaisUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.sexeUser, "Sexe", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formEmp.sexeUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.sexeUser) }}</label>
+                                      {{ form_widget(formEmp.sexeUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.sexeUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.nationUser, "Pays d'origine", {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+
+                                {% if form_errors(formEmp.nationUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.nationUser) }}</label>
+                                      {{ form_widget(formEmp.nationUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.nationUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.posteUser, "Poste de responsabilité", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formEmp.posteUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.posteUser) }}</label>
+                                      {{ form_widget(formEmp.posteUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.posteUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.contUser, "Contact(s)", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formEmp.contUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.contUser) }}</label>
+                                      {{ form_widget(formEmp.contUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.contUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.email, "E-mail de l'employé", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formEmp.email) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.email) }}</label>
+                                      {{ form_widget(formEmp.email, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.email, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formEmp.residUser, "Résidence de l'employé", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formEmp.residUser) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formEmp.residUser) }}</label>
+                                      {{ form_widget(formEmp.residUser, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formEmp.residUser, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                        {{ form_rest(formEmp) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary pull-right">Ajouter</button>
+                </div>
+                  <!-- /.modal-footer -->
+                {{ form_end(formEmp) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout d'un employé -->
+
+    
+{% endblock %}
+
+    {% block javascripts %}
+
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $( function() {
+
+                $('#dataTable-emp').DataTable( {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun employé trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">'+
+                        '<option value="10">10</option>'+
+                        '<option value="20">20</option>'+
+                        '<option value="30">30</option>'+
+                        '<option value="40">40</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="-1">Tous</option>'+
+                        '</select> éléments',
+                        "emptyTable": "Aucun employé n'a été enregistré dans cette copérative !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                } );
+            } );
+
+            // tooltip demo
+            $('.tooltip-emp').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
+            });
+
+        </script>
+        <!-- DataTables -->
+        <script src="/backend/v2/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/backend/v2/plugins/datatables/dataTables.bootstrap.min.js"></script>
+        
+    {% endblock %}

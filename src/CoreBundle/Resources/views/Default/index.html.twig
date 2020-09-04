@@ -1,0 +1,281 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+    {% block meta %}
+        <meta name="description" content="Tableau de bord du poste d'administration" />
+        <meta name="keywords" content="administration, AgriWeb" />
+    {% endblock %}
+
+    {% block title %}
+        Poste d'administration
+    {% endblock %}
+    {% block stylesheet %}
+        <!-- DataTables -->
+        <link rel="stylesheet" href="/backend/v2/plugins/datatables/dataTables.bootstrap.css">
+    {% endblock %}
+
+    {% block body %}
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Poste d'administration
+                <small>Tableau de bord</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li class="active">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </li>
+            </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <div class="alert alert-warning alert-dismissible">
+                <button class="close" type="button" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4>
+                    <span class="glyphicon glyphicon-exclamation-sign"></span> 
+                    Bienvenue sur le poste d'administration d'AgriWeb !
+                </h4>
+
+                <p>
+                    Bienvenue cher administrateur ! Ici, vous avez tous les droits de gestion de la plateforme.<br />
+                    Faites donc attention à ce que vous faites de peur d'endommager le système.
+                </p>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>{{ produits|length }}</h3>
+                            <p>Produits</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-cube"></i>
+                        </div>
+                        <a href="{{ path('core_produit') }}" class="small-box-footer">
+                            Voir plus <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-orange">
+                        <div class="inner">
+                            <h3>{{ cooperatives|length }}</h3>
+                            <p>Coopératives</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-map"></i>
+                        </div>
+                        <a href="{{ path('core_coop') }}" class="small-box-footer">
+                            Voir plus <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-blue">
+                        <div class="inner">
+                            <h3>{{ clients|length }}</h3>
+                            <p>Clients</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-cash"></i>
+                        </div>
+                        <a href="{{ path('core_client') }}" class="small-box-footer">
+                            Voir plus <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-sm-3">
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>0</h3>
+                            <p>Transactions</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-clipboard"></i>
+                        </div>
+                        <a href="{{ path('core_transaction') }}" class="small-box-footer">
+                            Voir plus <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Informations sur l'USCAEP -->
+      <div class="row">
+
+        <div class="col-md-12">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#coop_tab" data-toggle="tab"><i class="fa fa-institution"></i> Présentation </a></li>
+              <li>
+                <a href="#trans_tab" data-toggle="tab">
+                  <span class="glyphicon glyphicon-briefcase"></span> Employés
+                </a></li>
+              <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-question"></i></a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="coop_tab">
+                <h3 style="text-align:center;">
+                  {% autoescape %}
+                    {{ uscaep.nomUn|upper|raw }}
+                  {% endautoescape %}
+                </h3>
+                <p style="font-size:20px;">
+                  <br>
+                  &nbsp;&nbsp;<i class="fa fa-map-marker"></i> Localisation : {{ uscaep.siegeUn }}
+                  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-phone"></i> {{ uscaep.telUn }}
+                  <br>
+                  &nbsp;&nbsp;<i class="fa fa-calendar"></i> Horaires : {{ uscaep.heurUn }}
+                  &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i> E-mail : {{ uscaep.eMailUn }}
+                </p><br>
+                <h4>USCAEP, société de coopératives avec un capital de 15 000 000 F. CFA.</h4>
+
+                <a href="{{ path('core_union', {'id': uscaep.id}) }}" class="btn btn-primary">
+                  <span class="glyphicon glyphicon-list-alt"></span> Plus de l'USCAEP</a>
+                <a href="{{ path('core_union_mod', {'id': uscaep.id}) }}" class="btn btn-warning">
+                <span class="glyphicon glyphicon-pencil"></span> Modifier</a>
+
+
+                
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="trans_tab">
+
+                <a type="#" data-toggle="modal" data-target=".bs-addEmp" class="btn btn-primary pull-right"><i class="fa fa-user-plus"></i> Nouvel employé</a>
+                <h3>Liste des employés</h3>
+
+                <br>
+
+                <table id="data_emp" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>Matricule</th>
+                    <th>Nom complet</th>
+                    <th>Résidence</th>
+                    <th>Poste</th>
+                    <th>Contact(s)</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+
+      </div>
+      <!-- /.row -->
+
+    <div class="modal fade bs-addEmp example-modal">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+              <i class="fa fa-user-plus"></i> Nouvel employé
+            </h4>
+          </div>
+          <div class="modal-body">
+            <p>One fine body&hellip;</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-success">Enregistrer</button>
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout d'employé -->
+            
+        </section>
+        <!-- /.content -->
+    {% endblock %}
+    
+
+
+  {% block javascripts %}
+    <!-- page script -->
+    <script>
+        $(function () {
+
+          $("#list_img").DataTable(
+                {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun achat trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">Tous</option>' +
+                        '</select> éléments',
+                        "emptyTable": "Aucune image n'a été enregistrée !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                });
+
+            $("#data_emp").DataTable(
+                {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun employé trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">Tous</option>' +
+                        '</select> éléments',
+                        "emptyTable": "Aucun employé enregistré !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                });
+          });
+        // tooltip demo
+            $('.tooltip-demo').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
+            });
+    </script>
+    <!-- DataTables -->
+    <script src="/backend/v2/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/backend/v2/plugins/datatables/dataTables.bootstrap.min.js"></script>
+  {% endblock %}

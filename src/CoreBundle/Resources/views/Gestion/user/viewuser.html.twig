@@ -1,0 +1,153 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                {% if key =='false' %}
+                    Utilisateurs de l'USCAEP
+                {% else %}
+                    Suppression de l'utlisateur
+                {% endif %}
+              
+                
+            </h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <ol class="breadcrumb">
+        <li>
+            <a href="{{ path('core_homepage') }}">
+                <i class="fa fa-desktop"></i> Tableau de bord
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('core_users') }}">
+                <i class="fa fa-group"></i> Utilisateurs
+            </a>
+        </li>
+        {% if key == false %}
+            <li class="active">
+                <i class="fa fa-id-card"></i> Voir l'utilisateur
+            </li>
+        {% else %}
+            <li class="active">
+                <i class="fa fa-user-times"></i> Supprimer l'utilisateur
+            </li>
+        {% endif %}
+    </ol>
+
+    {% if key == true %}
+    <div class="alert alert-danger col-md-12">
+        {% for message in app.session.flashbag.get('alert') %}
+            {% autoescape false %}
+                <p> {{ message }}</p>
+            {% endautoescape %}
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="row">
+
+        <div class="col-md-12 col-sm-12">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    Informations sur l'utilisateur
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu slidedown">
+                            <li>
+                                <a href="#" data-toggle="modal" data-target=".bs-modUser">
+                                    <i class="fa fa-user-plus fa-fw"></i> Mofifier les informations
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="modal" data-target=".bs-delUser">
+                                    <i class="fa fa-user-times fa-fw"></i> Supprimer l'utilisateur
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-print fa-fw"></i> Imprimer
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <p>Présentation générale de l'utilisateur</p>
+                    
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- Modal de modification de l'utilisateur -->
+    <div class="modal fade bs-modUser example-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-user-edit"></i> Modifier les informations
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>One fine body&hellip;</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary">Modifier</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal de modification de l'utilisateur -->
+
+    <!-- Modal d'avertissement -->
+    <div class="modal fade bs-delUser example-modal">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-user-times"></i> Suppression de l'utilisateur
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <p>Cette opération est irréversible.<br>
+                    &Ecirc;tes-vous vraiment sûr de vouloir supprimer cet utilisateur ?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Annuler</button>
+                    <a href="{{ path('core_user_del') }}" class="btn btn-danger">Supprimer</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'avertissement -->
+
+{% endblock %}
+
+{% block javascripts %}
+    
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Activités pastorales
+{%endblock %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3 font-weight-light">Productions animales</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('seeker_coop_platform_homepage') }}">Accueil</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('seeker_coop_platform_activ') }}">Activités</a>
+            </li>
+            <li class="breadcrumb-item active">Elévage de {{ animal }}</li>
+        </ol>
+
+        <div class="row">
+
+            <div class="col-md-6">
+                
+                <img class="img-fluid" src="/frontend/img/bg-750x450.png" alt=""><br />
+                <p style="font-size:12px;">Sources de la présentation : <a href="https://fr.wikipedia.org/">Wikipedia</a> et Microsoft Encarta 2009 [DVD]. Microsoft Corporation, 2008</p>
+    
+            </div>
+
+            <div class="col-md-6">
+                <h3>Produit {{ animal }}</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+                <h3>Project Details</h3>
+                <ul>
+                    <li>Lorem Ipsum</li>
+                    <li>Dolor Sit Amet</li>
+                    <li>Consectetur</li>
+                    <li>Adipiscing Elit</li>
+                </ul>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?</p>
+        </div>
+
+        <!-- Related Projects Row -->
+        <h3 class="page-header">Autres élévages</h3><hr />
+        <div class="row">
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-fluid" src="/frontend/img/bg-500x300.png" alt="">
+                </a>
+                <h4> Porciculture </h4>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                <a href="#">
+                    <img class="img-fluid" src="/frontend/img/bg-500x300.png" alt="">
+                </a>
+                <h4> Héliciculture </h4>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+    </div>
+{% endblock %}

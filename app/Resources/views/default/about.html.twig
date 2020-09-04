@@ -1,0 +1,114 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Qui sommes-nous ?
+{% endblock %}
+
+{% block body %}
+<!-- Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3 font-weight-light">USCAEP, l'organisation au service des planteurs</h1>
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ path('homepage') }}">Accueil</a>
+        </li>
+        <li class="breadcrumb-item active">Présentation</li>
+    </ol>
+
+    <!-- Intro Content -->
+    <div class="row">
+        <div class="col-md-6">
+          <img  />
+          <img class="img-fluid rounded mb-4" src="{{ image.webPath }}" alt="{{ image.altImg }}">
+          
+            {% autoescape false %}
+              {{ uscaep.0.presUn }}
+        </div>
+        <div class="col-md-6">
+              {{ uscaep.0.objetUn }}
+
+            {{ uscaep.0.butUn }}
+
+            {{ uscaep.0.objectifUn }}
+
+           {% endautoescape %}
+
+        </div>
+    </div>
+    <!-- /.row -->
+    <!-- Team Members -->
+    <h2 class="page-header">Notre équipe</h2><hr />
+    <div class="row">
+
+        <div class="col-md-3 mb-3">
+          <div class="card h-100 text-center">
+            <img class="card-img-top" src="/frontend/img/bg-750x450.png" alt="">
+            <div class="card-body">
+              <h4 class="card-title">KOPOIN Kopoin Appolinaire</h4>
+              <h6 class="card-subtitle mb-2 text-muted">PCA</h6>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus aut mollitia eum ipsum fugiat odio officiis odit.</p>
+            </div>
+            <div class="card-footer">
+                <a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card h-100 text-center">
+            <img class="card-img-top" src="/frontend/img/bg-750x450.png" alt="">
+            <div class="card-body">
+              <h4 class="card-title">ASSAHORE Benoît</h4>
+              <h6 class="card-subtitle mb-2 text-muted">Directeur général</h6>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus aut mollitia eum ipsum fugiat odio officiis odit.</p>
+            </div>
+            <div class="card-footer">
+                <a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card h-100 text-center">
+            <img class="card-img-top" src="/frontend/img/bg-750x450.png" alt="">
+            <div class="card-body">
+              <h4 class="card-title">YAPO Assi Gilbert</h4>
+              <h6 class="card-subtitle mb-2 text-muted">Position</h6>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus aut mollitia eum ipsum fugiat odio officiis odit.</p>
+            </div>
+            <div class="card-footer">
+                <a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+          <div class="card h-100 text-center">
+            <img class="card-img-top" src="/frontend/img/bg-750x450.png" alt="">
+            <div class="card-body">
+              <h4 class="card-title">AGBATTOU Kopoin Augustin</h4>
+              <h6 class="card-subtitle mb-2 text-muted">Position</h6>
+              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus aut mollitia eum ipsum fugiat odio officiis odit.</p>
+            </div>
+            <div class="card-footer">
+                <a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                <a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+            </div>
+          </div>
+        </div>
+
+    </div>
+    <!-- /.row -->
+    
+</div>
+{% endblock %}

@@ -1,0 +1,520 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    {% autoescape %}
+        {{ maCoop.nomCoop|raw }}
+    {% endautoescape %}
+{% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Présentation de la coopérative 
+            <small>{{ maCoop.sigleCoop }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('gest_platform_homepage') }}">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-map"></i> Coopératives
+                </a>
+            </li>
+            <li class="active">
+                <i class="fa fa-map-marker"></i>
+                {% autoescape %}
+                    {{ maCoop.nomCoop|raw }}
+                {% endautoescape %}
+            </li>
+        </ol>
+    </section>
+
+    {% for message in app.session.flashbag.get('mod-success') %}
+        <div class="alert alert-success col-md-12">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            
+            {% autoescape false %}
+                <p><i class="fa fa-check-circle"></i> {{ message }}</p>
+            {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('img-success') %}
+        <div class="alert alert-success col-md-12">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            
+            {% autoescape false %}
+                <p><i class="fa fa-image"></i> {{ message }}</p>
+            {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+    <div class="row">
+
+        <div class="col-md-12 col-sm-12">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    Présentation générale
+                    <div class="btn-group pull-right">
+                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                            Actions
+                        </button>
+                        <ul class="dropdown-menu slidedown">
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#listeMem">
+                                    <i class="fa fa-list-alt fa-fw"></i> Liste des producteurs
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#listeEmp">
+                                    <i class="fa fa-list-alt fa-fw"></i> Liste des employés
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="modal" data-target="#modCoop">
+                                    <i class="fa fa-edit fa-fw"></i> Modifier les informations 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" data-toggle="modal" data-target=".bs-addImg">
+                                    <i class="fa fa-image fa-fw"></i> Ajouter une image 
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-print fa-fw"></i> Imprimer
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <h3 class="text-center">
+                        {{ maCoop.nomCoop }}<br>
+                        <small> Membre de l'USCAEP depuis le {{ maCoop.dateAdhCoop|date('d/m/Y') }}</small>
+                    </h3><br>
+                    <div class="col-md-3">
+                    </div>
+                    <div class="col-md-offset-2 col-md-7">
+                        <h4><b>Localisation :</b> {{ maCoop.departement.nomDep }}, sous-préfecture de {{ maCoop.sPCoop }}</h4>
+                        <h4><b>Boîte postale :</b> {{ maCoop.bPCoop }}</h4>
+                        <h4><b>Contact(s) :</b> {{ maCoop.contCoop }}</h4>
+                    </div>
+                    
+
+                    <div class="col-md-12 tooltip-slider">
+                        <h4>Images de la coopérative {{ maCoop.sigleCoop }}</h4>
+                        
+                        {% for slider in sliders %}
+                            
+                            <img src="{{ slider.webPath }}" alt="{{ slider.altImg }}" title="{{ slider.altImg }}" data-toggle="tooltip" data-placement="top" class="col-md-2" />
+                            
+                        {% else %}
+                            Aucun slider trouvé
+                        {% endfor %}
+                        <br><br>
+                    </div>
+                    <div class="col-md-12">
+                        {% autoescape false %}
+                            {{ maCoop.descCoop }} 
+                        {% endautoescape %}
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="listeMem" tabindex="-1" role="dialog" aria-labelledby="allMem" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="allMem"> Liste des producteurs </h4>
+                </div>
+                <div class="modal-body">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <i class="fa fa-thumbs-up"></i> Fermer
+                    </button>
+                    <button type="button" class="btn btn-warning">
+                        <i class="fa fa-print"></i> Imprimer
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="listeEmp" tabindex="-1" role="dialog" aria-labelledby="allEmp" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="allEmp"> Liste des employés</h4>
+                </div>
+                <div class="modal-body">
+                    <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-emp">
+                        <thead>
+                            <tr>
+                                <th>Matricule</th>
+                                <th>Nom complet</th>
+                                <th>Résidence</th>
+                                <th>Poste</th>
+                                <th>Contact(s)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for employe in employes %}
+                                <tr class="odd gradeX">
+                                    <td>
+                                        {% if employe.id <= 10 %}
+                                            00{{ employe.id }}/{{ employe.cooperative.id }}/COOP/PRS
+                                        {% else %}
+                                            0{{ employe.id }}/{{ employe.cooperative.id }}/COOP/PRS
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ employe.prenomUser }} {{ employe.nomUser }}
+                                    </td>
+                                    <td>{{ employe.residUser }}</td>
+                                    <td class="center">{{ employe.posteUser }}</td>
+                                    <td class="center">{{ employe.contUser }}</td>
+                                    <td class="tooltip-emp">
+                                        <a href="{{ path('gest_platform_emp_mod', {'id': employe.id }) }}" data-toggle="tooltip" data-placement="top" title="Modifier" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <i class="fa fa-thumbs-up"></i> Fermer
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="modCoop" tabindex="-1" role="dialog" aria-labelledby="modCoop" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="modCoop"> Modification de la coopérative</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                            <div class="form-group">
+                                {{ form_label(form.nomCoop, "Nom de la coopérative") }}
+                                {% if form_errors(form.nomCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.nomCoop) }}</label>
+                                      {{ form_widget(form.nomCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.nomCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.sigleCoop, "Sigle de la coopérative") }}
+                                {% if form_errors(form.sigleCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.sigleCoop) }}</label>
+                                      {{ form_widget(form.sigleCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.sigleCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.dateAdhCoop, "Date d'adhésion") }}
+                                {% if form_errors(form.dateAdhCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.dateAdhCoop) }}</label>
+                                      {{ form_widget(form.dateAdhCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.dateAdhCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.departement, "Nom du département") }}
+                                {% if form_errors(form.departement) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.departement) }}</label>
+                                      {{ form_widget(form.departement, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.departement, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.bPCoop, "Boîte postale") }}
+                                {% if form_errors(form.bPCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.bPCoop) }}</label>
+                                      {{ form_widget(form.bPCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.bPCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                             <div class="form-group">
+                                {{ form_label(form.sPCoop, "Sous-préfecture") }}
+                                {% if form_errors(form.sPCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.sPCoop) }}</label>
+                                      {{ form_widget(form.sPCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.sPCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.contCoop, "Contact(s)") }}
+                                {% if form_errors(form.contCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.contCoop) }}</label>
+                                      {{ form_widget(form.contCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.contCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.descCoop, "Description de la coopérative") }}
+                                {% if form_errors(form.descCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.descCoop) }}</label>
+                                      {{ form_widget(form.descCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.descCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+
+                        {{ form_rest(form) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-warning">Modifier</button>
+                </div>
+                    {{ form_end(form) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Modal d'ajout d'une image -->
+    <div class="modal fade bs-addImg example-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-photo"></i> Nouvelle image
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    
+                    {{ form_start(formImg) }}
+
+                        {{ form_errors(formImg) }}
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group dropzone">
+                                        {{ form_label(formImg.file, "Choisir l'image") }}
+                                        {{ form_errors(formImg.file) }}
+                                        {{ form_widget(formImg.file, {'attr': {'class': 'fallback'}}) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.dirImg, "Enregistrer sous", {'label_attr': {'class': 'control-label'}})}}
+
+                                        {{ form_errors(formImg.dirImg) }}
+                                        
+                                        
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-upload"></i></span>
+                                            {{ form_widget(formImg.dirImg, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.altImg, "Attribut alt", {'label_attr': {'class': 'control-label'}})}}
+
+                                        {% if form_errors(formImg.altImg) != null %}
+                                          <div class="form-group has-error">
+                                              <label class="control-label">{{ form_errors(formImg.altImg) }}</label>
+                                              {{ form_widget(formImg.altImg, {'attr': {'class': 'form-control'}}) }}
+                                          </div>
+                                        {% else %}
+                                            {{ form_widget(formImg.altImg, {'attr': {'class': 'form-control'}}) }}
+                                        {% endif %}
+                                        <p class="help-block">Exemple: ANADER</p>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.onlImg, "Visible sur le site", {'label_attr': {'class': 'control-label'}})}}
+
+                                        {{ form_errors(formImg.onlImg) }}
+                                        
+                                        <div class="form-group input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-globe"></i></span>
+                                            {{ form_widget(formImg.onlImg, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formImg.descImg, "Description", {'label_attr': {'class': 'control-label'}})}}
+
+                                {{ form_errors(formImg.descImg) }}
+                                
+                                {{ form_widget(formImg.descImg, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+
+                            {{ form_rest(formImg) }}
+                
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+                {{ form_end(formImg) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout d'une image -->
+
+
+{% endblock %}
+
+{% block javascripts %}
+    
+    <script>
+        $(function () {
+            // tooltip demo
+            $('.tooltip-slider').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
+            });
+            // tooltip emp
+            $('.tooltip-emp').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
+            });
+            $("#dataTable-mem").DataTable(
+                {
+                    "responsive": true,
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun achat trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">Tous</option>' +
+                        '</select> éléments',
+                        "emptyTable": "Aucun achat n'a été enregistré !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                })
+            $("#dataTable-emp").DataTable(
+                {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun achat trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">' +
+                        '<option value="10">10</option>' +
+                        '<option value="20">20</option>' +
+                        '<option value="30">30</option>' +
+                        '<option value="40">40</option>' +
+                        '<option value="50">50</option>' +
+                        '<option value="-1">Tous</option>' +
+                        '</select> éléments',
+                        "emptyTable": "Aucun achat n'a été enregistré !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                })
+        });
+    </script>
+    <!-- DataTables JavaScript -->
+    <script src="/backend/vendor/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="/backend/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="/backend/vendor/datatables-responsive/dataTables.responsive.js"></script>
+    </script>
+{% endblock %}

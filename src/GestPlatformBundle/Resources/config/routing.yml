@@ -1,0 +1,48 @@
+# Tableau de bord du gestionnaire
+gest_platform_homepage:
+    path:     /
+    defaults: { _controller: GestPlatformBundle:Default:index }
+
+# Routes pour les actions sur sa coopérative
+    # Voir les informations de la coopérative
+gest_platform_coop:
+    path:     /cooperatives/{coop}
+    defaults: { _controller: GestPlatformBundle:Default:voircoop }
+
+# Routes pour les approvisionnements
+    # Ajouter un nouveau produit à un approvisionnement
+gest_platform_trans_add:
+    path:     /approvisionnements/{id}/ajouter-produit
+    defaults: { _controller: GestPlatformBundle:Panier:addLigne, id: nouveau }
+    # Voir les informations sur l'approvisionnement
+gest_platform_trans_view:
+    path:     /approvisionnements/{id}/voir
+    defaults: { _controller: GestPlatformBundle:Panier:recap }
+gest_platform_trans_print:
+    path:     /approvisionnements/{id}/reçu-livraison
+    defaults: { _controller: GestPlatformBundle:Panier:print }
+
+# Routes pour les producteurs
+    # Voir la liste des producteurs de la coopérative    
+gest_platform_mem:
+    path:     /producteurs/
+    defaults: { _controller: GestPlatformBundle:Default:mem }
+    # Voir ou modifier les informations sur le producteur
+gest_platform_mem_mod:
+    path:     /producteurs/{id}/modifier
+    defaults: { _controller: GestPlatformBundle:Default:modMem }
+
+# Routes pour les employes
+    # Voir la liste des employés de la coopérative
+gest_platform_emp:
+    path:     /employes/
+    defaults: { _controller: GestPlatformBundle:Default:emp }
+    # Voir ou modifier les informations de l'employé
+gest_platform_emp_mod:
+    path:     /employes/{id}/modifier
+    defaults: { _controller: GestPlatformBundle:Default:modEmp }
+
+# Routes pour les actions sur ses informations
+gest_platform_profil:
+    path:     /mon-profil
+    defaults: { _controller: GestPlatformBundle:Default:profil }

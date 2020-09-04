@@ -1,0 +1,192 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block title %}
+    Lire un message
+{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Mes messages
+        </h1>
+        <ol class="breadcrumb">
+            {% if is_granted('ROLE_ADMIN') %}
+                <li>
+                    <a href="{{ path('core_homepage') }}">
+                        <i class="fa fa-desktop"></i> Tableau de bord</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path('gest_platform_homepage') }}">
+                        <i class="fa fa-desktop"></i> Tableau de bord</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{{ path('core_message') }}">
+                    <span class="glyphicon glyphicon-envelope"></span> Messages
+                </a> 
+            </li>
+            <li class="active">
+                <span class="glyphicon glyphicon-list-alt"></span> Lire le message
+            </li>
+        </ol>
+    </section>
+    
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+        <div class="col-md-3">
+            <a href="{{ path('core_message_compose') }}" class="btn btn-primary btn-raised btn-block margin-bottom">     
+                Rédiger
+            </a>
+
+            <div class="box box-solid">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Folders</h3>
+
+                    <div class="box-tools">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
+                </div>
+                <div class="box-body no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li class="active">
+                            <a href="#"><i class="fa fa-inbox"></i> Réception
+                                <span class="label label-primary pull-right">{{ alertMail|length }}</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-envelope-o"></i> Envoyés
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-file-text-o"></i> Brouillons
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-trash-o"></i> Corbeille
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+
+        <div class="col-md-9">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+
+                    <div class="box-tools pull-right tooltip-mail">
+                        <a href="#" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Précédant"><i class="fa fa-chevron-left"></i></a>
+                        <a href="#" class="btn btn-box-tool" data-toggle="tooltip" data-placement="top" title="Suivant"><i class="fa fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body no-padding">
+                    <div class="mailbox-read-info">
+                        <h3>{{ message.objetMs }}</h3>
+                        <h5>De : {{ message.email }}
+                            <span class="mailbox-read-time pull-right">{{ message.dateMs|date('d/m/Y à H:i', timezone='Europe/London') }}</span></h5>
+                    </div>
+                    <!-- /.mailbox-read-info -->
+                    <div class="mailbox-controls with-border text-center tooltip-mail">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Supprimer">
+                                <i class="fa fa-trash-o"></i></button>
+                            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Répondre">
+                                <i class="fa fa-reply"></i></button>
+                            <button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="top" title="Partager">
+                                <i class="fa fa-share"></i></button>
+                        </div>
+                        <!-- /.btn-group -->
+                        <button type="button" class="btn btn-default" data-toggle="tooltip" title="Imprimer">
+                            <i class="fa fa-print"></i></button>
+                    </div>
+                    <!-- /.mailbox-controls -->
+                    <div class="mailbox-read-message">
+                        <p>Bonjour USCAEP</p>
+
+                        <p> {{ message.contenu }} </p>
+
+                        <p>Merci, <br>{{ message.nom }}</p>
+                    </div>
+                    <!-- /.mailbox-read-message -->
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default"><i class="fa fa-reply"></i> Répondre</button>
+                        <button type="button" class="btn btn-default"><i class="fa fa-share"></i> Partager</button>
+                    </div>
+                    <button type="button" class="btn btn-danger"><i class="fa fa-trash-o"></i> Supprimer</button>
+                    <button type="button" class="btn btn-default"><i class="fa fa-print"></i> Imprimer</button>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+
+    </div>
+    <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Ckeditor -->
+    <script src="/backend/vendor/ckeditor/ckeditor.js"></script>
+    <!-- Page Script -->
+    <script>
+        $(function () {
+            //Add text editor
+            $("#compose-textarea").wysihtml5();
+        });
+    </script>
+    <script>
+        $(function () {
+
+            //Enable check and uncheck all functionality
+            $(".checkbox-toggle").click(function () {
+                $(".mailbox-messages input[type='checkbox'], .check-all input[type='checkbox']").prop('checked', $(this).is(':checked'));
+            });
+
+            //Handle starring for glyphicon and font awesome
+            $(".mailbox-star").click(function (e) {
+                e.preventDefault();
+                //detect type
+                var $this = $(this).find("a > i");
+                var glyph = $this.hasClass("glyphicon");
+                var fa = $this.hasClass("fa");
+
+                //Switch states
+                if (glyph) {
+                    $this.toggleClass("glyphicon-star");
+                    $this.toggleClass("glyphicon-star-empty");
+                }
+
+                if (fa) {
+                    $this.toggleClass("fa-star");
+                    $this.toggleClass("fa-star-o");
+                }
+            });
+        });
+
+        // tooltip demo
+        $('.tooltip-mail').tooltip({
+            selector: "[data-toggle=tooltip]",
+            container: "body"
+        });
+    </script>
+{% endblock %}

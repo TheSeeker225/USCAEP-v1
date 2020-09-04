@@ -1,0 +1,343 @@
+<!-- Default box -->
+<div class="box">
+  <div class="box-header with-border">
+    <h3 class="box-title"><i class="ion ion-android-list"></i> Présentation de la coopérative</h3>
+
+    <div class="box-tools pull-right">
+      <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+        <i class="fa fa-minus"></i></button>
+      <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+        <i class="fa fa-times"></i></button>
+    </div>
+  </div>
+  <div class="box-body">
+
+    <img src="/frontend/img/750x450/uscaep-750x450.png" class="col-md-3 logo pull-right" alt="Logo USCAEP">
+    {% autoescape false %}
+        <h3 style="text-align:center;">
+            {{ coop.nomCoop }}
+        </h3>
+        <p style="font-size:20px;">
+            <br>
+            &nbsp;&nbsp;<i class="fa fa-map-marker"></i> Localisation : {{ coop.sPCoop }}, {{ coop.bPCoop }}
+            &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-phone"></i> (+225) {{ coop.contCoop }}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <h4>
+              Cette coopérative est membre depuis le 
+              {{ coop.dateAdhCoop|date('d/m/Y H:i', timezone="Europe/London") }}
+            </h4>
+        </p>
+    {% endautoescape %}
+
+    <br><br>
+
+    <a href="#" class="btn btn-primary btn-sm pull-right">
+        <i class="fa fa-pencil"></i> Modifier les informations
+    </a>
+    <a type="#" data-toggle="modal" data-target=".bs-voirCoop" class="btn btn-primary btn-sm pull-right">
+        <i class="fa fa-television"></i> Voir plus 
+    </a>
+    <a type="#" data-toggle="modal" data-target=".bs-addProd" class="btn btn-primary btn-sm pull-right">
+        <i class="fa fa-user-plus"></i> Ajouter un membre
+    </a>
+    <a type="#" data-toggle="modal" data-target=".bs-addEmp" class="btn btn-primary btn-sm pull-right">
+        <i class="fa fa-plus"></i> Nouvel employé
+    </a>
+
+    <div class="col-md-12">
+          <!-- Custom Tabs -->
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active">
+                <a href="#membre_tab" data-toggle="tab">
+                  <i class="fa fa-group"></i> Les membres 
+                </a>
+              </li>
+              <li>
+                <a href="#employe_tab" data-toggle="tab">
+                  <i class="fa fa-briefcase"></i> Les employés
+                </a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="membre_tab">
+                
+                <a href="" class="pull-right btn btn-default">
+                  <i class="fa fa-list"></i> Imprimer
+                </a>
+                <h4>Liste des membres</h4>
+                <table id="dataTable-mb" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Naissance</th>
+                    <th>Village</th>
+                    <th>Nationalité</th>
+                    <th>Région</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td class="col-md-1">1</td>
+                    <td>Tiger Nixon</td>
+                    <td>2011/04/25</td>
+                    <td>Yakassé</td>
+                    <td>Ivoirienne</td>
+                    <td>Agnéby-Tiassa</td>
+                    <td>
+                      <a class="btn btn-default" title="Afficher" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Afficher">
+                        <i class="fa fa-id-card-o"></i>
+                      </a>
+                      <a class="btn bg-yellow" title="Modifier" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Modifier">
+                        <i class="fa fa-pencil"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Garrett Winters</td>
+                    <td>2011/04/27</td>
+                    <td>Tiémélékro</td>
+                    <td>Anglais</td>
+                    <td>Mé</td>
+                    <td>
+                      <a class="btn btn-default" title="Afficher" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Afficher">
+                        <i class="fa fa-id-card-o"></i>
+                      </a>
+                      <a class="btn bg-yellow" title="Modifier" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Modifier">
+                        <i class="fa fa-pencil"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Zorita Serrano</td>
+                    <td>2009/07/27</td>
+                    <td>Tiémélékro</td>
+                    <td>Burkinabè</td>
+                    <td>Mé</td>
+                    <td>
+                      <a class="btn btn-default" title="Afficher" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Afficher">
+                        <i class="fa fa-id-card-o"></i>
+                      </a>
+                      <a class="btn bg-yellow" title="Modifier" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Modifier">
+                        <i class="fa fa-pencil"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+              </div>
+              <!-- /.tab-pane -->
+              <div class="tab-pane" id="employe_tab">
+
+                <a href="" class="pull-right btn btn-default">
+                  <i class="fa fa-list"></i> Imprimer
+                </a>
+                <h4>Liste des employés</h4>
+                <table id="dataTable-mb" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Naissance</th>
+                    <th>Village</th>
+                    <th>Nationalité</th>
+                    <th>Région</th>
+                    <th>Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td class="col-md-1">1</td>
+                    <td>Tiger Nixon</td>
+                    <td>2011/04/25</td>
+                    <td>Yakassé</td>
+                    <td>Ivoirienne</td>
+                    <td>Agnéby-Tiassa</td>
+                    <td>
+                      <a class="btn btn-default" title="Afficher" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Afficher">
+                        <i class="fa fa-id-card-o"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Garrett Winters</td>
+                    <td>2011/04/27</td>
+                    <td>Tiémélékro</td>
+                    <td>Anglais</td>
+                    <td>Mé</td>
+                    <td>
+                      <a class="btn btn-default" title="Afficher" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Afficher">
+                        <i class="fa fa-id-card-o"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Zorita Serrano</td>
+                    <td>2009/07/27</td>
+                    <td>Tiémélékro</td>
+                    <td>Burkinabè</td>
+                    <td>Mé</td>
+                    <td>
+                      <a class="btn btn-default" title="Afficher" href="#" data-toggle="tooltip" data-widget="chat-pane-toggle" data-original-title="Afficher">
+                        <i class="fa fa-id-card-o"></i>
+                      </a>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+
+              </div>
+              <!-- /.tab-pane -->
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- nav-tabs-custom -->
+
+        </div>
+        <!-- /.col -->
+
+  </div>
+  <!-- /.box-body -->
+  <div class="box-footer">
+    <button type="button" class="btn bg-orange pull-right"><span class="glyphicon glyphicon-print"></span> Imprimer</button>
+  </div>
+  <!-- /.box-footer-->
+</div>
+<!-- /.box -->
+
+<div class="modal fade bs-addProd example-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          <i class="fa fa-user-plus"></i> Nouveau membre
+        </h4>
+      </div>
+      <div class="modal-body">
+        
+        {{ form_start(formM, {'attr': {'class': 'form-horizontal'}}) }}
+
+            {{ form_errors(formM) }}
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.nomMem, "Nom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+                <div class="col-md-10">
+                   {{ form_widget(formM.nomMem, {'attr': {'class': 'form-control'}}) }}
+                   <span class="help-block">{{ form_errors(formM.nomMem) }}</span> 
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.prenomMem, "Prénom", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+                <div class="col-sm-10">
+                   {{ form_widget(formM.prenomMem, {'attr': {'class': 'form-control'}}) }}
+                   <span class="help-block">{{ form_errors(formM.prenomMem) }}</span> 
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.dateNaisMem, "Date de naissance", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+
+                <div class="col-sm-8">
+                   {{ form_widget(formM.dateNaisMem, {'attr': {'class': 'form-control', 'id': 'datepicker' }}) }}
+                   <span class="help-block">{{ form_errors(formM.dateNaisMem) }}</span> 
+                </div>
+            </div>
+            
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.lieuNaisMem, "Lieu de naissance", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+
+                <div class="col-sm-8">
+                   {{ form_widget(formM.lieuNaisMem, {'attr': {'class': 'form-control'}}) }}
+                   <span class="help-block">{{ form_errors(formM.lieuNaisMem) }}</span> 
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.villageMem, "Village", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+                <div class="col-sm-10">
+                   {{ form_widget(formM.villageMem, {'attr': {'class': 'form-control'}}) }}
+                   <span class="help-block">{{ form_errors(formM.villageMem) }}</span> 
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.nbEnfMem, "Nombre d'enfants", {'label_attr': {'class': 'col-sm-4 control-label'}}) }}
+
+                <div class="col-sm-8">
+                   {{ form_widget(formM.nbEnfMem, {'attr': {'class': 'form-control'}}) }}
+                   <span class="help-block">{{ form_errors(formM.nbEnfMem) }}</span> 
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.nationMem, "Pays d'origine ", {'label_attr': {'class': 'col-sm-4 control-label', 'id': 'pays'}}) }}
+
+                <div class="col-sm-8">
+                   {{ form_widget(formM.nationMem, {'attr': {'class': 'form-control select2'}}) }}
+                   <span class="help-block">{{ form_errors(formM.nationMem) }}</span> 
+                </div>
+            </div>
+
+            <div class="form-group col-md-6">
+                {{ form_label(formM.contMem, "Contact(s)", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+                <div class="col-sm-10">
+                   {{ form_widget(formM.contMem, {'attr': {'class': 'form-control'}}) }}
+                   <span class="help-block">{{ form_errors(formM.contMem) }}</span> 
+                </div>
+            </div>
+
+            {{ form_rest(formM) }}
+
+        
+
+      </div>
+      <div class="modal-footer">
+          <input type="reset" class="btn btn-default pull-right" data-dismiss="modal" value="Annuler" />
+          <input type="submit" class="btn btn-primary" value="Ajouter" />
+      </div>
+    </div>
+    <!-- /.modal-content -->
+    {{ form_end(formM) }}
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /. Modal d'ajout de membre -->
+
+<div class="modal fade bs-voirCoop example-modal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">
+          <i class="fa fa-institution"></i> Présentation générale de la coopérative
+        </h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary">Ok</button>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+<!-- /. Modal d'infos de coopérative -->

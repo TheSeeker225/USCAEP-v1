@@ -1,0 +1,208 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block title %}
+    Boite de réception
+{% endblock %}
+
+{% block body %}
+    <section class="content-header">
+        <h1>
+            Boîte de réception
+              <small>3 nouveaux messages</small>
+        </h1>
+        <ol class="breadcrumb">
+            {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('core_homepage') }}">
+                    <i class="fa fa-desktop"></i> Tableau de bord</a>
+            </li>
+        {% else %}
+            <li>
+                <a href="{{ path('gest_platform_homepage') }}">
+                    <i class="fa fa-desktop"></i> Tableau de bord</a>
+            </li>
+        {% endif %}
+        <li class="active"><i class="fa fa-inbox"></i> Messages</li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="row">
+
+      <div class="col-md-3">
+          <a href="{{ path('core_message_compose') }}" class="btn btn-primary btn-raised btn-block margin-bottom">     
+              Rédiger
+          </a>
+
+          <div class="box box-solid">
+              <div class="box-header with-border">
+                  <h3 class="box-title">Folders</h3>
+
+                  <div class="box-tools">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                  </div>
+              </div>
+              <div class="box-body no-padding">
+                  <ul class="nav nav-pills nav-stacked">
+                      <li class="active">
+                          <a href="#"><i class="fa fa-inbox"></i> Réception
+                              <span class="label label-primary pull-right">{{ alertMail|length }}</span>
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                              <i class="fa fa-envelope-o"></i> Envoyés
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                              <i class="fa fa-file-text-o"></i> Brouillons
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                              <i class="fa fa-trash-o"></i> Corbeille
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /. box -->
+      </div>
+
+    <div class="col-md-9">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Réception</h3>
+
+          <div class="box-tools pull-right">
+            <div class="has-feedback">
+              <input type="text" class="form-control" placeholder="Chercher un mail">
+              <span class="glyphicon glyphicon-search form-control-feedback"></span>
+            </div>
+          </div>
+          <!-- /.box-tools -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body no-padding">
+          <div class="mailbox-controls">
+            <!-- Check all checkbox -->
+            <div class="checkbox btn-group check-all"><label><input type="checkbox" class="checkbox-toggle"></label></div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Supprimer les messages sélectionnés"><i class="fa fa-trash-o"></i></button>
+              <button type="button" class="btn btn-default" data-toggle="tooltip" title="Répondre"><i class="fa fa-reply"></i></button>
+              <button type="button" class="btn btn-default" data-toggle="tooltip" title="Transférer"><i class="fa fa-share"></i></button>
+            </div>
+            <!-- /.btn-group -->
+            <button type="button" class="btn btn-success" data-toggle="tooltip" title="Rafraîchir"><i class="fa fa-refresh"></i></button>
+            <div class="pull-right">
+              1-50/200
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-icon"><i class="fa fa-chevron-left"></i></button>
+                <button type="button" class="btn btn-default btn-icon"><i class="fa fa-chevron-right"></i></button>
+              </div>
+              <!-- /.btn-group -->
+            </div>
+            <!-- /.pull-right -->
+          </div>
+          <div class="table-responsive mailbox-messages">
+            <table class="table table-hover table-striped">
+              <tbody>
+                {% for message in alertMail %}
+                    <tr>
+                      <td><div class="checkbox no-margin"><label><input type="checkbox"></label></div></td>
+                      <td class="mailbox-star"><a href="#"><i class="fa fa-star text-yellow"></i></a></td>
+                      <td class="mailbox-name"><a href="{{ path('core_message_view', {'id': message.id }) }}">{{ message.nom }}</a></td>
+                      <td class="mailbox-subject">
+                          <b>{{ message.objetMs }}</b> 
+                          - Cliquez <a href="{{ path('core_message_view', {'id': message.id }) }}">ici</a> pour afficher le contenu du message
+                      </td>
+                      <td class="mailbox-date">{{ message.dateMs|date('d/m/Y', timezone='Europe/London') }}</td>
+                    </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <!-- /.table -->
+          </div>
+          <!-- /.mail-box-messages -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer no-padding">
+          <div class="mailbox-controls">
+            <!-- Check all checkbox -->
+            <div class="checkbox btn-group check-all"><label><input type="checkbox" class="checkbox-toggle"></label></div>
+            <div class="btn-group">
+              <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Supprimer les messages sélectionnés"><i class="fa fa-trash-o"></i></button>
+              <button type="button" class="btn btn-default" data-toggle="tooltip" title="Répondre"><i class="fa fa-reply"></i></button>
+              <button type="button" class="btn btn-default" data-toggle="tooltip" title="Transférer"><i class="fa fa-share"></i></button>
+            </div>
+            <!-- /.btn-group -->
+            <button type="button" class="btn btn-success" data-toggle="tooltip" title="Rafraîchir"><i class="fa fa-refresh"></i></button>
+            <div class="pull-right">
+              1-50/200
+              <div class="btn-group">
+                <button type="button" class="btn btn-default btn-icon"><i class="fa fa-chevron-left"></i></button>
+                <button type="button" class="btn btn-default btn-icon"><i class="fa fa-chevron-right"></i></button>
+              </div>
+              <!-- /.btn-group -->
+            </div>
+            <!-- /.pull-right -->
+          </div>
+        </div>
+      </div>
+      <!-- /. box -->
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <!-- Ckeditor -->
+    <script src="/backend/vendor/ckeditor/ckeditor.js"></script>
+    <!-- Page Script -->
+    <script>
+        $(function () {
+            //Add text editor
+            $("#compose-textarea").wysihtml5();
+        });
+    </script>
+    <script>
+        $(function () {
+
+            //Enable check and uncheck all functionality
+            $(".checkbox-toggle").click(function () {
+                $(".mailbox-messages input[type='checkbox'], .check-all input[type='checkbox']").prop('checked', $(this).is(':checked'));
+            });
+
+            //Handle starring for glyphicon and font awesome
+            $(".mailbox-star").click(function (e) {
+                e.preventDefault();
+                //detect type
+                var $this = $(this).find("a > i");
+                var glyph = $this.hasClass("glyphicon");
+                var fa = $this.hasClass("fa");
+
+                //Switch states
+                if (glyph) {
+                    $this.toggleClass("glyphicon-star");
+                    $this.toggleClass("glyphicon-star-empty");
+                }
+
+                if (fa) {
+                    $this.toggleClass("fa-star");
+                    $this.toggleClass("fa-star-o");
+                }
+            });
+        });
+    </script>
+{% endblock %}

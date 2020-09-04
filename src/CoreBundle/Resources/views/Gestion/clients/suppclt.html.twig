@@ -1,0 +1,177 @@
+{% extends 'CoreBundle:Default:index.html.twig' %}
+
+{% block meta %}
+    <meta name="description" content="Présentation et suppression du client" />
+    <meta name="keywords" content="{{ client.nomClt }}, suppression, supprimer" />
+{% endblock %}
+
+{% block title %}
+  {{ client.nomClt }}
+{% endblock %}
+
+{% block stylesheet %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/backend/v2/plugins/datatables/dataTables.bootstrap.css" />
+{% endblock %}
+
+{% block body %}
+
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+      <h1>
+          Informations sur {{ client.nomClt }}
+      </h1>
+      <ol class="breadcrumb">
+          <li>
+              <a href="{{ path('core_homepage') }}">
+                  <i class="fa fa-desktop"></i> Tableau de bord
+              </a>
+          </li>
+          <li>
+              <a href="{{ path('core_client') }}">
+                  <i class="fa fa-desktop"></i> Clients
+              </a>
+          </li>
+          <li class="active">
+              <i class="fa fa-money"></i> {{ client.nomClt }}
+          </li>
+      </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+      <div class="callout callout-danger">
+            <h4><i class="fa fa-trash"></i> Suppression du client</h4>
+
+            <p>
+                Cette opération est irréversible. Veuillez bien vérifier le client afin d'être vraiment sûr avant de cliquer sur 
+                <a href="#" data-toggle="modal" data-target="#suppClt" class="alert-link">Supprimer</a> !
+            </p>
+        </div>
+      <!-- Default box -->
+      <div class="box">
+          <div class="box-header with-border">
+              <h3 class="box-title">
+                  <i class="fa fa-institution"></i> {{ client.nomClt }}
+              </h3> 
+          </div>
+          <div class="box-body">
+
+              <h4>Liste des commandes</h4>            
+              <table id="dataTable-cmd" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                          <th>ID</th>
+                          <th>Date</th>
+                          <th>Statut</th>
+                          <th>Raison</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for client in clients %}       
+                          <tr>
+                              <td>183</td>
+                              <td>11-7-2014</td>
+                              <td>
+                                  {% if etatCmd != 'A' and etatCmd != 'N' %}
+                                      <span class="label label-success">Approuvé</span>
+                                  {% else %}
+                                      {% if etatCmd != 'A' %}
+                                          <span class="label label-warning">En attente</span>
+                                      {% else %}
+                                          <span class="label label-danger">Annulé</span>
+                                      {% endif %}
+                                  {% endif %}
+                              </td>
+                              <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                              <td class="tooltip-cmd">
+                                  <a href="{{ path('core_trans_view') }}" class="btn btn-warning">
+                                      Voir plus</a>
+                              </td>
+                          </tr>
+                      {% endfor %}
+
+                  </tbody>
+
+              </table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+  </section>
+  <!-- /.content -->
+
+  <!-- Modal -->
+    <div class="modal fade modal-danger" id="suppCoop" tabindex="-1" role="dialog" aria-labelledby="suppCoop" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="suppCoop"> 
+                        <span class="glyphicon glyphicon-question-sign"></span> Demande de suppression
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                        {{ form_errors(form) }}
+                            &Ecirc;tes-vous vraiment sûr de supprimer ce client ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> Non</button>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </div>
+                        {{ form_rest(form) }}
+                    {{ form_end(form) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+{% endblock %}
+
+
+    {% block javascripts %}
+      
+
+      <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+      <script>
+          $( function() {
+              $('#dataTable-cmd').DataTable( {
+                  "language": {
+                      "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                      "infoEmpty": "Aucun client trouvé !",
+                      "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                      "loadingRecords": "Veuillez patienter quelques instants !",
+                      "lengthMenu": 'Afficher <select class="form-control">'+
+                      '<option value="10">10</option>'+
+                      '<option value="20">20</option>'+
+                      '<option value="30">30</option>'+
+                      '<option value="40">40</option>'+
+                      '<option value="50">50</option>'+
+                      '<option value="-1">Tous</option>'+
+                      '</select> éléments',
+                      "emptyTable": "Aucun client enregistré !",
+                      "zeroRecords": "Aucun résultat trouvé !",
+                      "search": "Rechercher :",
+                      "paginate": {
+                          "previous": "Précédant",
+                          "next": "Suivant",
+                          "first": "Premier page",
+                          "last": "Dernière page"
+                      }
+                  }
+              } );
+          } );
+          // tooltip demo
+        $('.tooltip-cmd').tooltip({
+            selector: "[data-toggle=tooltip]",
+            container: "body"
+        });
+      </script>
+        <!-- DataTables -->
+        <script src="/backend/v2/plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="/backend/v2/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    {% endblock %}

@@ -1,0 +1,240 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    Livraison n° {% if livraison.id < 10  %}00{% endif %}
+    {% if livraison.id >= 10 and livraison.id <= 99 %}0{% endif %}
+    {{ livraison.id }}/COOP/{{ maCoop.id }}/LIV
+{% endblock %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Livraisons
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('gest_platform_homepage') }}">
+                    <i class="fa fa-dashboard"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <i class="fa fa-truck"></i> Approvisionnements
+            </li>
+            <li class="active">
+                <i class="fa fa-plus"></i> Livraison n° 
+                    {% if livraison.id < 10  %}00{% endif %}
+                    {% if livraison.id >= 10 and livraison.id <= 99 %}0{% endif %}
+                    {{ livraison.id }}/COOP/{{ maCoop.id }}/LIV
+            </li>
+        </ol>
+    </section>
+
+    <div class="pad margin no-print">
+      <div class="callout callout-info" style="margin-bottom: 0!important;">
+        <h4><i class="fa fa-info-circle"></i> Actions possibles</h4>
+        Sur cette page, vous pouvez  mener les actions suivantes :
+        <ul>
+            <li>renseigner le montant payé au producteur à ce jour</li>
+            <li>changer l'état et la raison correspondante de la livraison</li>
+            <li>ajouter un autre produit</li>
+            <li>valider la livraison</li>
+            <li>imprimer le reçu</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="fa fa-globe"></i> {{ uscaep.nomUn }}
+                        <small class="pull-right"></small>
+                    </h2>
+                </div>
+                <!-- /.col -->
+            </div>
+
+            <div class="col-sm-4 invoice-col">
+                <b>Livraison n° 
+                {% if livraison.id < 10  %}00{% endif %}
+                {% if livraison.id >= 10 and livraison.id <= 99 %}0{% endif %}
+                {{ livraison.id }}/COOP/{{ maCoop.id }}/LIV</b><br>
+                Date: {{ livraison.dateLiv|date('d/m/Y') }}
+            </div>
+            <!-- /.col -->
+
+            <div class="col-sm-4 invoice-col">
+                Effectuée par
+                <address>
+                    <strong>{{ livraison.membre.nomMem }} {{ livraison.membre.prenomMem }}</strong><br>
+                    {{ livraison.membre.villageMem }}<br>
+                    {{ maCoop.nomCoop }}<br>
+                    Tel: (+225) {{ maCoop.contCoop }}<br>
+                </address>
+            </div>
+                <!-- /.col -->
+            
+            <!-- info row -->
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    Pour
+                    <address>
+                        <strong>{{ uscaep.sigleUn }}</strong><br>
+                        {{ uscaep.siegeUn }}<br>
+                        Tel: {{ uscaep.telUn }}<br>
+                        Email: {{ uscaep.eMailUn }}
+                    </address>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-xs-12 table-responsive">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Quantité (kg)</th>
+                                <th>Prix achat</th>
+                                <th>Qualité</th>
+                                <th>Montant </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% set monTotal = 0 %}
+                            {% for ligne in lignes %}
+                                <tr>
+                                    <td>{{ ligne.produit.nomPrd }}</td>
+                                    <td>{{ ligne.qteFrLiv }}</td>
+                                    <td>{{ ligne.paPrdLiv }} F. CFA/Kg</td>
+                                    {% if ligne.produit.nomPrd != 'cacao' and ligne.produit.nomPrd != 'café' %}
+                                        <td>Aucune</td>
+                                    {% else %}
+                                        <td>{{ ligne.qualPrdLiv }}</td>
+                                    {% endif %}
+                                    <td>{{ ligne.qteFrLiv * ligne.paPrdLiv }} F. CFA</td>
+                                </tr>
+                                {% set monTotal = monTotal + (ligne.qteFrLiv * ligne.paPrdLiv) %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <!-- accepted payments column -->
+                <div class="col-xs-6">
+                    <p class="lead">Date : {{ "now"|date('d/m/Y H:i', "Africa/Lagos") }}</p>
+
+                    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                        Etat : {% if livraison.etatLiv == 'AN' or livraison.etatLiv == 'AT' %}Paiement en cours {% else %} Paiement effectué{% endif %}<br />
+                        {{ livraison.raisLiv }}
+                    </p>
+                </div>
+                <!-- /.col -->
+            
+                <div class="col-xs-6">
+                    {{ form_start(formLiv) }}
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th style="width:50%">Montant total :</th>
+                                <td>{{ monTotal }} F. CFA</td>
+                            </tr>
+                            <tr>
+                                <th>Montant payé :</th>
+                                <td>
+                                    <div class="input-group">
+                                        {{ form_errors(formLiv.montPayLiv) }}
+
+                                        {{ form_widget(formLiv.montPayLiv, {'attr':{'class': 'col-md-10'}}) }}
+                                        <span class="input-group-addon">F. CFA</span>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Reste :</th>
+                                <td>{% set reste = monTotal - livraison.montPayLiv %}{{ reste }} F. CFA</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <!-- this row will not appear when printing -->
+            <div class="row no-print">
+                <div class="col-xs-12">
+                    
+
+                    {{ form_errors(formLiv) }}
+
+                        {{ form_label(formLiv.etatLiv, "Etat de la livraison") }}
+                        
+                        {{ form_errors(formLiv.etatLiv) }}
+
+                        {{ form_widget(formLiv.etatLiv, {'attr':{'class': 'form-control col-md-4'}}) }}
+                        
+                    
+                        {{ form_label(formLiv.raisLiv, "Justification") }}
+                        
+                        {{ form_errors(formLiv.raisLiv) }}
+
+                        {{ form_widget(formLiv.raisLiv, {'attr':{'class': 'form-control form-group col-md-8'}}) }}
+                        
+                </div>
+                <div class="col-xs-12">
+                    {% if livraison.etatLiv == 'AT' or livraison.etatLiv == 'E
+
+
+
+
+
+
+                    T' %}
+                        <a href="{{ path('gest_platform_trans_print', {'id': livraison.id }) }}" target="_blank" class="btn btn-default">
+                            <i class="fa fa-print"></i> Imprimer
+                        </a>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary pull-right">   <i class="ion ion-android-add-circle"></i> Valider
+                    </button>
+                    {% if livraison.etatLiv == 'AN' %}
+                        <a href="{{ path('gest_platform_trans_add', {'id': livraison.id }) }}" class="btn btn-success pull-right" style="margin-right: 5px;">
+                            <i class="ion ion-android-add-circle"></i> Ajouter un produit
+                        </a>
+                    {% endif %}
+                            {{ form_rest(formLiv) }}
+
+                        {{ form_end(formLiv) }}
+                </div>
+            </div>
+        </div>
+    
+    </section>
+    <!-- /.content -->
+
+{% endblock %}
+
+{% block javascripts %}
+    
+{% endblock %}
+
+
+
+
+

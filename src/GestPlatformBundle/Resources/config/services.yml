@@ -1,0 +1,4 @@
+services:
+#    gest_platform.example:
+#        class: GestPlatformBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

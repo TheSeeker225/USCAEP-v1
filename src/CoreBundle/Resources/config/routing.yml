@@ -1,0 +1,97 @@
+core_homepage:
+    path:     /dashboard
+    defaults: { _controller: CoreBundle:Default:index }
+
+# Routes pour les actions de l'adminitrateur
+core_profil:
+    path:     /mon-profil
+    defaults: { _controller: CoreBundle:Default:profil }
+
+# Routes pour les actions sur l'USCAEP
+core_union:
+    path:     /union/{id}/a-propos
+    defaults: { _controller: CoreBundle:Default:about }
+core_union_mod:
+    path:     /union/{id}/modifier
+    defaults: { _controller: CoreBundle:Default:modUn }
+
+# Routes pour les actions sur les coopératives
+core_coop:
+    path:     /cooperatives
+    defaults: { _controller: CoreBundle:Default:coop }
+    # Voir les détails sur une seule coopérative
+core_coop_view:
+    path:     /cooperatives/{coop}
+    defaults: { _controller: CoreBundle:Default:voircoop }
+core_coop_del:
+    path:     /cooperatives/{coop}/supprimer
+    defaults: { _controller: CoreBundle:Default:suppcoop }
+
+# Routes pour les actions sur les produits
+core_produit:
+    path:     /produits
+    defaults: { _controller: CoreBundle:Default:produit }
+core_produit_mod:
+    path:     /produits/modifier/{prod}
+    defaults: { _controller: CoreBundle:Default:modprod }
+core_produit_supp:
+    path:     /produits/supprimer/{prod}
+    defaults: { _controller: CoreBundle:Default:suppprod }
+# Routes pour les actions sur les images
+core_image:
+    path:     /images
+    defaults: { _controller: CoreBundle:Default:image }
+core_image_mod:
+    path:     /images/{dir}/{img}?modifier
+    defaults: { _controller: CoreBundle:Default:modimg}
+core_image_del:
+    path:     /images/{dir}/{img}?supprimer
+    defaults: { _controller: CoreBundle:Default:suppimg}
+
+# Routes pour les actions sur les messages
+core_message:
+    path:     /messages/
+    defaults: { _controller: CoreBundle:Default:inbox }
+core_message_view:
+    path:     /messages/lire
+    defaults: { _controller: CoreBundle:Default:read }
+core_message_compose:
+    path:     /messages/envoyer
+    defaults: { _controller: CoreBundle:Default:compose }
+
+# Routes pour les actions sur les clients
+core_client:
+    path:     /clients
+    defaults: { _controller: CoreBundle:Default:client }
+core_client_mod:
+    path:     /clients/{id}/modifier
+    defaults: { _controller: CoreBundle:Default:modclt}
+core_client_supp:
+    path:     /clients/{id}/supprimer
+    defaults: { _controller: CoreBundle:Default:suppclt}
+
+# Routes pour les actions sur les transactions
+core_transaction:
+    path:     /transactions
+    defaults: { _controller: CoreBundle:Default:trans }
+core_trans_view:
+    path:     /transactions/{id}/voir
+    defaults: { _controller: CoreBundle:Default:viewTrans, id: 1 }
+# Routes pour les actions sur les utilisateurs
+core_users:
+    path:     /utilisateurs
+    defaults: { _controller: CoreBundle:Default:listusers }
+core_user_view:
+    path:     /utilisateurs/voir
+    defaults: { _controller: CoreBundle:Default:viewuser, key: false }
+core_user_del:
+    path:     /utilisateurs/supprimer
+    defaults: { _controller: CoreBundle:Default:viewuser, key: true }
+core_profil:
+    path:     /utilisateurs/profil
+    defaults: { _controller: CoreBundle:Default:profil }
+
+# Routes pour obtenir de l'aide
+core_apropos:
+    path:     /AgriWeb/a-propos
+    defaults: { _controller: CoreBundle:Default:apropos }

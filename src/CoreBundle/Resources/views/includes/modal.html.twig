@@ -1,0 +1,372 @@
+
+<div class="modal fade bs-addTrans" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel">Nouvel approvisionnement</h4>
+      </div>
+      <div class="modal-body">
+
+        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Libellé <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Producteur <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select name="" class="form-control">
+                <option>Choisir un producteur</option>
+                <option value="" > M. Noel NANGOH </option>
+                <option value="" > Mlle Jessica BLEOUINI </option>
+                <option value="" > M. Elischama EHOUMAN </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Produit <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <select name="" class="form-control">
+                <option>Choisir un type</option>
+                <option value="" > Cacao </option>
+                <option value="" > Café </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Stock
+            </label>
+            <div class="input-group col-md-6 col-sm-6 col-xs-12">
+              <input id="birthday" class="form-control col-md-7 col-xs-12" required="required" type="text">
+              <span class="input-group-addon">KG</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Quantité <span class="required">*</span>
+            </label>
+            <div class="input-group col-md-6 col-sm-6 col-xs-12">
+              <input type="number" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+              <span class="input-group-addon">KG</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Prix d'achat <span class="required">*</span></label>
+            <div class="input-group col-md-6 col-sm-6 col-xs-12">
+              <input id="middle-name" class="form-control col-md-7 col-xs-12" type="number" name="middle-name">
+              <span class="input-group-addon">F. CFA</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Montant </label>
+            <div class="input-group col-md-6 col-sm-6 col-xs-12">
+              <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
+              <span class="input-group-addon">F. CFA</span>
+            </div>
+          </div>
+
+        </div>
+      <div class="modal-footer">
+        <button type="button" data-toggle="modal" data-target=".bs-addProd" class="btn btn-primary"><i class="fa fa-user-plus"></i> Nouveau producteur</button>
+        <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+      </div>
+
+    </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bs-modCoop" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i> Modifier les informations de la coopérative</h4>
+      </div>
+      <div class="modal-body">
+        <form id="form-coop" data-parsley-validate class="form-horizontal form-label-left">
+
+             <div class="form-group">
+               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nomCoop">Désignation <span class="required">*</span>
+               </label>
+               <div class="col-md-6 col-sm-6 col-xs-12">
+                 <input type="text" name="nomCoop" placeholder="Union des agriculteurs de Yakassé-Attobrou" required="required" class="form-control col-md-7 col-xs-12">
+               </div>
+             </div>
+
+             <div class="form-group">
+               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="dateAdhCoop">Date d'adhésion <span class="required">*</span>
+               </label>
+               <div class="col-md-6 col-sm-6 col-xs-12">
+                 <input type="date" name="dateAdhCoop" required="required" class="form-control col-md-7 col-xs-12">
+               </div>
+             </div>
+
+             <div class="form-group">
+               <label for="departement" class="control-label col-md-3 col-sm-3 col-xs-12">Département <span class="required">*</span>
+               </label>
+               <div class="col-md-6 col-sm-6 col-xs-12">
+                 <select name="departement" class="form-control">
+                   <option>Choisir le département</option>
+                   <option name="Adzopé" >Adzopé</option>
+                   <option name="Alépé" >Alépé</option>
+                   <option name="Akoupé" >Akoupé</option>
+                 </select>
+               </div>
+             </div>
+
+             <div class="form-group">
+               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sPCoop">Sous-préfecture/Village <span class="required">*</span>
+               </label>
+               <div class="col-md-6 col-sm-6 col-xs-12">
+                 <input type="text" name="sPCoop" required="required" class="form-control col-md-7 col-xs-12">
+               </div>
+             </div>
+
+             <div class="form-group">
+               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bPCoop">Boîte postal</label>
+               <div class="col-md-6 col-sm-6 col-xs-12">
+                 <input type="text" name="bPCoop" class="form-control col-md-7 col-xs-12">
+               </div>
+             </div>
+
+             <div class="form-group">
+               <label class="control-label col-md-3 col-sm-3 col-xs-12" for="sPCoop">Contact(s) <span class="required">*</span>
+               </label>
+               <div class="col-md-6 col-sm-6 col-xs-12">
+                 <input type="tel" name="contCoop" required="required" class="form-control col-md-7 col-xs-12">
+               </div>
+             </div>
+
+             <div class="form-group">
+               <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Responsable <span class="required">*</span>
+               </label>
+               <div class="col-md-6 col-sm-6 col-xs-12">
+                 <select name="resCoop" class="form-control">
+                   <option>Choisir le responsable </option>
+                   <option value="" > M. Noel NANGOH </option>
+                   <option value="" > Mlle Jessica BLEOUINI </option>
+                   <option value="" > M. Elischama EHOUMAN </option>
+                 </select>
+               </div>
+             </div>
+
+         <div class="form-group">
+           <label for="descr" class="control-label">Description de la coopérative </label>
+           <br>
+
+           <div class="btn-toolbar editor" data-role="editor-toolbar" data-target="#editor-one">
+             <div class="btn-group">
+               <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font"><i class="fa fa-font"></i><b class="caret"></b></a>
+               <ul class="dropdown-menu">
+               </ul>
+             </div>
+
+             <div class="btn-group">
+               <a class="btn dropdown-toggle" data-toggle="dropdown" title="Font Size"><i class="fa fa-text-height"></i>&nbsp;<b class="caret"></b></a>
+               <ul class="dropdown-menu">
+                 <li>
+                   <a data-edit="fontSize 5">
+                     <p style="font-size:17px">Grand</p>
+                   </a>
+                 </li>
+                 <li>
+                   <a data-edit="fontSize 3">
+                     <p style="font-size:14px">Normal</p>
+                   </a>
+                 </li>
+                 <li>
+                   <a data-edit="fontSize 1">
+                     <p style="font-size:11px">Petit</p>
+                   </a>
+                 </li>
+               </ul>
+             </div>
+
+             <div class="btn-group">
+               <a class="btn" data-edit="bold" title="Gras (Ctrl/Cmd+B)"><i class="fa fa-bold"></i></a>
+               <a class="btn" data-edit="italic" title="Italique (Ctrl/Cmd+I)"><i class="fa fa-italic"></i></a>
+               <a class="btn" data-edit="strikethrough" title="Barrer"><i class="fa fa-strikethrough"></i></a>
+               <a class="btn" data-edit="underline" title="Souligner (Ctrl/Cmd+U)"><i class="fa fa-underline"></i></a>
+             </div>
+
+             <div class="btn-group">
+               <a class="btn" data-edit="insertunorderedlist" title="Puces "><i class="fa fa-list-ul"></i></a>
+               <a class="btn" data-edit="insertorderedlist" title="Numération"><i class="fa fa-list-ol"></i></a>
+               <a class="btn" data-edit="outdent" title="Diminuer le retrait (Shift+Tab)"><i class="fa fa-dedent"></i></a>
+               <a class="btn" data-edit="indent" title="Indenter (Tab)"><i class="fa fa-indent"></i></a>
+             </div>
+
+             <div class="btn-group">
+               <a class="btn" data-edit="justifyleft" title="Aligner à gauche (Ctrl/Cmd+L)"><i class="fa fa-align-left"></i></a>
+               <a class="btn" data-edit="justifycenter" title="Centrer (Ctrl/Cmd+E)"><i class="fa fa-align-center"></i></a>
+               <a class="btn" data-edit="justifyright" title="Aligner à droite (Ctrl/Cmd+R)"><i class="fa fa-align-right"></i></a>
+               <a class="btn" data-edit="justifyfull" title="Justifier (Ctrl/Cmd+J)"><i class="fa fa-align-justify"></i></a>
+             </div>
+
+             <div class="btn-group">
+               <a class="btn dropdown-toggle" data-toggle="dropdown" title="Ajouter un lien"><i class="fa fa-link"></i></a>
+               <div class="dropdown-menu input-append">
+                 <input class="span2" placeholder="URL" type="text" data-edit="createLink" />
+                 <button class="btn" type="button">Add</button>
+               </div>
+               <a class="btn" data-edit="unlink" title="Couper"><i class="fa fa-cut"></i></a>
+             </div>
+
+             <div class="btn-group">
+               <a class="btn" title="Insérer une image (ou glisser & déposer)" id="pictureBtn"><i class="fa fa-picture-o"></i></a>
+               <input type="file" data-role="magic-overlay" data-target="#pictureBtn" data-edit="insertImage" />
+             </div>
+
+             <div class="btn-group">
+               <a class="btn" data-edit="undo" title="Précédant (Ctrl/Cmd+Z)"><i class="fa fa-undo"></i></a>
+               <a class="btn" data-edit="redo" title="Suivant (Ctrl/Cmd+Y)"><i class="fa fa-repeat"></i></a>
+             </div>
+           </div>
+
+           <div id="editor-one" class="editor-wrapper"></div>
+
+           <textarea name="descr" id="descr" style="display:none;"></textarea>
+
+
+         </div>
+
+        </div>
+         <div class="modal-footer">
+           <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer</button>
+           <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+         </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade bs-addProd" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-user-plus"></i> Nouveau producteur</h4>
+      </div>
+      <div class="modal-body">
+        <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="nom">Nom <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="nom" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="Koffi" required="required" type="text">
+            </div>
+          </div>
+
+          <div class="item form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="prenom">Prenom <span class="required">*</span>
+            </label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+              <input id="prenom" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="Kouakou Jean" required="required" type="text">
+            </div>
+          </div>
+
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">Sexe <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div id="gender" class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="gender" value="M"> &nbsp; Homme &nbsp;
+                  </label>
+                  <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
+                    <input type="radio" name="gender" value="F"> Femme
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Date de naissance <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="birthday" class="form-control has-feedback-left" id="single_cal4" class="date-picker form-control col-md-7 col-xs-12" required="required" type="date">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Lieu de naissance <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input class="form-control col-md-7 col-xs-12" required="required" type="text">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12">Pays d'origine <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <select name="" class="form-control">
+                  <option>Choisir le pays</option>
+                  <option value="CI" >Côte d'Ivoire</option>
+                  <option value="BF" >Burkina Faso</option>
+                  <option value="Mali" >Mali</option>
+                  <option value="Guinée" >Guinée</option>
+                  <option value="Libéria" >Libéria</option>
+                  <option value="Ghana" >Ghana</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="number">Nombre d'enfants <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="number" id="number" name="number" required="required" data-validate-minmax="10,100" class="form-control col-md-7 col-xs-12">
+              </div>
+            </div>
+
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="occupation">Village <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="occupation" type="text" name="occupation" data-validate-length-range="5,20" class="optional form-control col-md-7 col-xs-12">
+              </div>
+            </div>
+
+            <div class="item form-group">
+              <label class="control-label col-md-3 col-sm-3 col-xs-12" for="telephone">Contact(s) <span class="required">*</span>
+              </label>
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <input type="tel" id="telephone" name="phone" required="required" data-validate-length-range="8,20" class="form-control col-md-7 col-xs-12">
+              </div>
+            </div>
+
+      </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-success"><i class="fa fa-save"></i> Enregistrer</button>
+      <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+    </div>
+
+  </form>
+
+  </div>
+</div>
+</div>

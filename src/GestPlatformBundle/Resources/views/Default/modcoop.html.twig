@@ -1,0 +1,120 @@
+{# Template pour la modification d'une coopérative #}
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+        		Modification d'une coopérative
+            </h1>
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+
+    <ol class="breadcrumb">
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('core_homepage') }}">
+                    <i class="fa fa-dashboard"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('core_coop') }}">
+                    <i class="fa fa-map-marker"></i> Coopératives
+                </a>
+            </li>
+            <li class="active">
+                <span class="glyphicon glyphicon-pencil"></span> Modification
+            </li>
+        {% else %}
+            <li>
+                <a href="{{ path('gest_platform_homepage') }}">
+                    <i class="fa fa-dashboard"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('gest_platform_coop') }}">
+                    <i class="fa fa-institution"></i> Coopératives
+                </a>
+            </li>
+            <li class="active">
+                <i class="fa fa-edit"></i> Modifier la coopérative
+            </li>
+        {% endif %}
+        
+    </ol>
+
+    <div class="row">
+
+        <div class="col-md-12 col-sm-12">
+            <div class="panel panel-green">
+                <div class="panel-heading">
+                    Formulaire de modification
+                </div>
+                <div class="panel-body">
+
+                    {{ form_start(formCoop) }}
+                            <div class="form-group">
+		                        {{ form_label(formCoop.nomCoop, "Nom de la coopérative") }}
+		                        {{ form_errors(formCoop.nomCoop) }}
+		                        {{ form_widget(formCoop.nomCoop, {'attr': {'class': 'form-control'}}) }}
+		                    </div>
+
+		                    <div class="form-group">
+		                        {{ form_label(formCoop.dateAdhCoop, "Date d'adhésion'") }}
+		                        {{ form_errors(formCoop.dateAdhCoop) }}
+		                        {{ form_widget(formCoop.dateAdhCoop, {'attr': {'class': 'form-control'}}) }}
+		                    </div>
+
+		                    <div class="form-group">
+		                        {{ form_label(formCoop.bPCoop, "Boîte postale") }}
+		                        {{ form_errors(formCoop.bPCoop) }}
+		                        {{ form_widget(formCoop.bPCoop, {'attr': {'class': 'form-control'}}) }}
+		                    </div>
+
+		                     <div class="form-group">
+		                        {{ form_label(formCoop.sPCoop, "Sous-préfecture") }}
+		                        {{ form_errors(formCoop.sPCoop) }}
+		                        {{ form_widget(formCoop.sPCoop, {'attr': {'class': 'form-control'}}) }}
+		                    </div>
+
+		                    <div class="form-group">
+		                        {{ form_label(formCoop.contCoop, "Contact(s)") }}
+		                        {{ form_errors(formCoop.contCoop) }}
+		                        {{ form_widget(formCoop.contCoop, {'attr': {'class': 'form-control'}}) }}
+		                    </div>
+
+		                    <div class="form-group">
+		                        {{ form_label(formCoop.descCoop, "Description de la coopérative") }}
+		                        {{ form_errors(formCoop.descCoop) }}
+		                        {{ form_widget(formCoop.descCoop, {'attr': {'class': 'form-control ckeditor'}}) }}
+		                    </div>
+
+		                    <input type="reset" class="btn btn-default" name="Annuler" value="Annuler" />
+		                    <input type="submit" class="btn btn-warning" name="add" value="Enregistrer"/>
+
+		                    {{ form_rest(formCoop) }}
+		            {{ form_end(formCoop) }}
+                                        
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+
+    </div>
+    <!-- /.row -->
+
+{% endblock %}
+
+{% block javascripts %}
+
+	<!-- Ckeditor -->
+    <script src="/backend/vendor/ckeditor/ckeditor.js"></script>
+    
+{% endblock %}

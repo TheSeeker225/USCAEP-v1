@@ -1,0 +1,71 @@
+{% extends 'CoreBundle:Default:index.html.twig' %}
+
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <i class="ion ion-images"></i>
+            Images du site
+        </h1>
+        <ol class="breadcrumb">
+            <li><a onclick="window.history.back();"><i class="fa fa-home"></i> Tableau de bord</a></li>
+            <li class="active"><a href="#"><i class="fa fa-photo"></i> Images</a></li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <div class="callout callout-info">
+            <h4>Information !</h4>
+
+            {% for message in app.session.flashbag.get('info') %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+
+                <h3 class="box-title">
+                    <i class="ion ion-android-image"></i>
+                    {% if key == 'supprimer' %}
+                        Supprimer la coopérative
+                    {% elseif key == 'modifier' %}
+                        Modifier la coopérative
+                    {% else %}
+                        Ajouter une coopérative
+                    {% endif %}
+                </h3>
+
+            </div>
+            <div class="box-body">
+
+                {% if key == 'modifier' || key == 'supprimer' %}
+
+                    <form method="post" {{ form_enctype(form) }}>
+
+                        {{ form_widget(form) }}
+
+                    </form>
+
+                {% else %}
+
+                    <h4> Aucune action n'est possible ! <br>Veuillez retourner à la page précédente.</h4>
+
+                {% endif %}
+
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                Footer
+            </div>
+            <!-- /.box-footer-->
+        </div>
+        <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+{% endblock %}

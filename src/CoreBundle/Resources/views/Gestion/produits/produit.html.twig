@@ -1,0 +1,298 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    Produits
+{% endblock %}
+
+{% block meta %}
+    <meta name="description" content="Liste des produits enregistrés" />
+    <meta name="keywords" content="agriculture, élévage, transformation, produit" />
+{% endblock %}
+
+{% block stylesheet %}
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/backend/v2/plugins/datatables/dataTables.bootstrap.css" />
+{% endblock %}
+
+{% block body %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Produits de l'USCAEP
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('core_homepage') }}">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </a>
+            </li>
+            <li class="active">
+                <span class="glyphicon glyphicon-grain"></span> Produits
+            </li>
+        </ol>
+    </section>
+
+    {% for message in app.session.flashbag.get('prd-success') %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                x
+            </button>
+            
+            {% autoescape false %}
+                <p><i class="fa fa-check-circle"></i> {{ message }}</p>
+            {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('supp-success') %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                x
+            </button>
+            
+            {% autoescape false %}
+                <p><i class="fa fa-trash"></i> {{ message }}</p>
+            {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+    <!-- Main content -->
+    <section class="content">
+        
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">
+                    <span class="glyphicon glyphicon-list-alt"></span> Présentation des produits
+                </h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <i class="fa fa-cog"></i>
+                    </button>
+                    <ul class="dropdown-menu slidedown">
+                        <li>
+                            <a href="#" data-toggle="modal" data-target=".bs-addProd">
+                                <i class="fa fa-plus fa-fw"></i> Ajouter un produit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-print fa-fw"></i> Imprimer
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body">
+                
+                <h4>Liste des produits</h4>
+                <table id="dataTable-prod" class="table table-responsive table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Produit</th>
+                        <th>Domaine</th>
+                        <th>Groupe</th>
+                        <th>Stock actuel</th>
+                        <th style="width: 170px;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in produits %}
+
+                            <tr>
+                                <td>
+                                    {% if item.id >= 10 %}
+                                        0{{ item.id }}/PNG
+                                    {% else %}
+                                        00{{ item.id }}/PNG
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if item.nomPrd == 'palmier' or item.nomPrd == 'plantain' %}
+                                        {% if item.nomPrd == 'palmier' %}
+                                            {{ item.nomPrd|capitalize }}  à huile
+                                        {% endif %}
+                                        {% if item.nomPrd == 'plantain' %}
+                                            Banane {{ item.nomPrd }}
+                                        {% endif %}
+                                    {% else %}
+                                          {{ item.nomPrd|capitalize }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {{ item.domPrd }}
+                                </td>
+                                <td>
+                                    {{ item.groupPrd }}
+                                </td>
+                                <td class="text-center">30 unités</td>
+                                <td class="tooltip-demo">
+                                    <a href="{{ path('core_produit_mod', {'prod': item.nomPrd }) }}" data-toggle="tooltip" data-placement="top" title="Modifier" class="btn bg-orange"><i class="fa fa-pencil"></i></a>
+                                    <a href="{{ path('core_produit_supp', {'prod': item.nomPrd }) }}" data-toggle="tooltip" data-placement="top" title="Supprimer" class="btn bg-red"><i class="fa fa-trash"></i></a>
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </section>
+    <!-- /.content -->
+
+    <!-- Modal d'ajout d'un produit -->
+    <div class="modal fade bs-addProd example-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-cube"></i> Nouveau produit
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+
+                        {{ form_errors(form) }}
+
+                            <div class="form-group">
+                                {{ form_label(form.nomPrd, "Son nom", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(form.nomPrd) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.nomPrd) }}</label>
+                                      {{ form_widget(form.nomPrd, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.nomPrd, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.domPrd, "Domaine", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(form.domPrd) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.domPrd) }}</label>
+                                      {{ form_widget(form.domPrd, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.domPrd, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.groupPrd, "Groupe", {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+
+                                {% if form_errors(form.groupPrd) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.groupPrd) }}</label>
+                                      {{ form_widget(form.groupPrd, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.groupPrd, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.presPrd, "Présentation", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(form.presPrd) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.presPrd) }}</label>
+                                      {{ form_widget(form.presPrd, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.presPrd, {'attr': {'class': 'form-control tinymce'}}) }}
+                                {% endif %}
+                            </div>
+
+                        {{ form_rest(form) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary pull-right">Ajouter</button>
+                </div>
+                  <!-- /.modal-footer -->
+                {{ form_end(form) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout d'un produit -->
+{% endblock %}
+
+    {% block javascripts %}
+
+        <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+        <script>
+            $( function() {
+                $('#dataTable-prod').DataTable( {
+                    "language": {
+                        "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                        "infoEmpty": "Aucun achat trouvé !",
+                        "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                        "loadingRecords": "Veuillez patienter quelques instants !",
+                        "lengthMenu": 'Afficher <select class="form-control">'+
+                        '<option value="10">10</option>'+
+                        '<option value="20">20</option>'+
+                        '<option value="30">30</option>'+
+                        '<option value="40">40</option>'+
+                        '<option value="50">50</option>'+
+                        '<option value="-1">Tous</option>'+
+                        '</select> éléments',
+                        "emptyTable": "Aucun achat n'a été enregistré !",
+                        "zeroRecords": "Aucun résultat trouvé !",
+                        "search": "Rechercher :",
+                        "paginate": {
+                            "previous": "Précédant",
+                            "next": "Suivant",
+                            "first": "Premier page",
+                            "last": "Dernière page"
+                        }
+                    }
+                } );
+            } );
+
+            // tooltip demo
+            $('.tooltip-demo').tooltip({
+                selector: "[data-toggle=tooltip]",
+                container: "body"
+            });
+
+        </script>
+
+    <script type="text/javascript">
+        $(function () {
+            //TinyMCE
+            tinymce.init({
+                selector: "textarea.tinymce",
+                theme: "modern",
+                height: 300,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime media nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern imagetools'
+                ],
+                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                toolbar2: 'print preview media | forecolor backcolor emoticons',
+                image_advtab: true
+            });
+            tinymce.suffix = ".min";
+            tinyMCE.baseURL = '/USCAEP/web/backend/v2/plugins/tinymce';
+        });
+    </script>
+
+{% endblock %}

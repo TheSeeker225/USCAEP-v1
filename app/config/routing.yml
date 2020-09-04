@@ -1,0 +1,11 @@
+gest_platform:
+    resource: "@GestPlatformBundle/Resources/config/routing.yml"
+    prefix:   /gestion/
+
+core:
+    resource: "@CoreBundle/Resources/config/routing.yml"
+    prefix:   /seekAdmin/
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation

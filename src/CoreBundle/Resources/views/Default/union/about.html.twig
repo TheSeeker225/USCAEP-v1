@@ -1,0 +1,265 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block meta %}
+    <meta name="description" content="Présentation de l'USCAEP" />
+    <meta name="keywords" content="présentation, objet, but, objactif" />
+{% endblock %}
+
+{% block title %}
+    USCAEP
+{% endblock %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Présentation de l'union 
+            <small>
+                {% autoescape %}
+                    {{ uscaep.nomUn|raw }}
+                {% endautoescape %}
+            </small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('core_homepage') }}">
+                    <i class="fa fa-desktop"></i> Tableau de bord
+                </a>
+            </li>
+            <li class="active">
+                <span class="glyphicon glyphicon-list-alt"></span> USCAEP
+            </li>
+        </ol>
+    </section>
+
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-institution"></i> Présentation générale</h3>
+
+                <div class="box-tools pull-right">
+                    <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false" href="#">
+                        <i class="fa fa-cog"></i>
+                        <div class="ripple-container"></div>
+                    </a>
+                    <ul class="dropdown-menu slidedown">
+                        <!--<li>
+                            <a href="#" data-toggle="modal" data-target="#suppUn">
+                                <i class="fa fa-list-alt fa-fw"></i> Supprimer l'union
+                            </a>
+                        </li> -->
+                        <li>
+                            <a class="text-orange" href="{{ path('core_union_mod', {'id': uscaep.id}) }}">
+                                <i class="fa fa-pencil-square fa-fw"></i> Modifier l'union
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-toggle="modal" data-target="#addImg">
+                                <i class="fa fa-photo fa-fw"></i> Ajouter une image
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-print fa-fw"></i> Imprimer
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <h3 class="text-center">
+                            {% autoescape %}
+                                {{ uscaep.nomUn|upper|raw }}
+                            {% endautoescape %}<br>
+                            <small> Union de coopératives créée depuis le XX XX XXXX</small>
+                        </h3><br>
+                        
+                        <div class="col-md-12">
+                            <img class="col-md-3 pull-left" src="{{ image.webPath }}" alt="{{ image.altImg }}" />
+                            <p style="font-size:17px;">&nbsp;&nbsp;<i class="fa fa-map-marker"></i> Localisation : {{ uscaep.siegeUn }}&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-phone"></i> {{ uscaep.telUn }}</p>
+                            <p style="font-size:17px;">&nbsp;&nbsp;<i class="fa fa-calendar"></i> Horaires : {{ uscaep.heurUn }}
+                          &nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-envelope"></i> E-mail : {{ uscaep.eMailUn }}</p>
+                          
+                        </div>
+                    </div>
+                    
+                    
+                    <br>
+                    <div class="col-md-12">
+                        {% autoescape %}
+                            {{ uscaep.presUn|raw }}
+
+                            {{ uscaep.histUn|raw }}
+
+                            {{ uscaep.objetUn|raw }}
+
+                            {{ uscaep.butUn|raw }}
+
+                            {{ uscaep.objectifUn|raw }}
+                        {% endautoescape %}
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+    </section>
+
+    
+    
+
+    
+    <!-- Modal -->
+    <div class="modal fade" id="suppUn" tabindex="-1" role="dialog" aria-labelledby="suppUn" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="suppUn"> Demande de suppression</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                            &Ecirc;tes-vous vraiment sûr de supprimer cette union ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"> Non</button>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </div>
+                        {# form_rest(form) #}
+                    </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Modal -->
+    <div class="modal fade" id="addImg" tabindex="-1" role="dialog" aria-labelledby="addImg" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="addImg"> Nouvelle image</h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formImg, {'attr': {'class': 'form-horizontal'}}) }}
+                            {{ form_errors(formImg) }}
+
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="form-group dropzone">
+                                        {{ form_label(formImg.file, "Choisir l'image") }}
+                                        {{ form_errors(formImg.file) }}
+                                        {{ form_widget(formImg.file, {'attr': {'class': 'fallback'}}) }}
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-8">
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.dirImg, "Enregistrer sous", {'label_attr': {'class': 'control-label col-sm-3'}})}}
+
+                                        {{ form_errors(formImg.dirImg) }}
+                                        
+                                        
+                                        <div class="form-group input-group col-sm-8">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-upload"></i></span>
+                                            {{ form_widget(formImg.dirImg, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ form_label(formImg.altImg, "Attribut alt", {'label_attr': {'class': 'control-label col-sm-2'}})}}
+
+                                        {{ form_errors(formImg.altImg) }}
+                                        
+                                        
+                                        <div class="form-group input-group col-sm-9">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-tag"></i></span>
+                                            {{ form_widget(formImg.altImg, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        {{ form_label(formImg.onlImg, "Visibilité", {'label_attr': {'class': 'control-label'}})}}
+
+                                        {% if form_errors(formImg.onlImg) != null %}
+                                            <div class="form-group has-error">
+                                                <label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> {{ form_errors(formImg.onlImg) }}</label>
+                                                <input type="text" class="form-control" id="inputError" />
+                                            </div>
+                                        {% else %}
+                                            <div class="form-group input-group">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-globe"></i></span>
+                                                {{ form_widget(formImg.onlImg, {'attr': {'class': 'form-control'}}) }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formImg.descImg, "Description", {'label_attr': {'class': 'control-label'}})}}
+
+                                {{ form_errors(formImg.descImg) }}
+                                
+                                {{ form_widget(formImg.descImg, {'attr': {'class': 'form-control tinymce'}}) }}
+                            </div>
+
+                            {{ form_rest(formImg) }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                            <button type="submit" class="btn btn-success">Ajouter</button>
+                        </div>
+                    {{ form_end(formImg) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        $(function () {
+            //TinyMCE
+            tinymce.init({
+                selector: "textarea.tinymce",
+                theme: "modern",
+                height: 300,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime media nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern imagetools'
+                ],
+                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                toolbar2: 'print preview media | forecolor backcolor emoticons',
+                image_advtab: true
+            });
+            tinymce.suffix = ".min";
+            tinyMCE.baseURL = '/USCAEP/web/backend/v2/plugins/tinymce';
+        });
+    </script>
+
+{% endblock %}

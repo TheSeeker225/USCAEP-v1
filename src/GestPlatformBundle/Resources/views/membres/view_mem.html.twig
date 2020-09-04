@@ -1,0 +1,330 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block title %}
+    {{ producteur.prenomMem }} {{ producteur.nomMem }}
+{% endblock %}
+
+{% block stylesheet %}
+    
+{% endblock %}
+
+{% block body %}
+
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            Carte de membre
+            <small>{{ producteur.prenomMem }} {{ producteur.nomMem }}</small>
+        </h1>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{ path('gest_platform_homepage') }}">
+                    <i class="fa fa-dashboard"></i> Tableau de bord
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('gest_platform_mem') }}">
+                    <i class="ion ion-ios-people"></i> Producteurs
+                </a>
+            </li>
+            <li class="active">
+                <i class="ion ion-ios-person"></i> {{ producteur.prenomMem }} {{ producteur.nomMem }}
+            </li>
+        </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        
+
+        <!-- Default box -->
+        <div class="row">
+
+            <div class="col-md-7">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="fa fa-qrcode"></i> 
+                            {% if producteur.id <= 10 %}
+                                00{{ producteur.id }}/{{ producteur.cooperative.id }}/COOP/MEM
+                            {% else %}
+                                0{{ producteur.id }}/{{ producteur.cooperative.id }}/COOP/MEM
+                            {% endif %}
+                        </h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <i class="ion ion-ios-person"></i>
+                            </button>
+                            <ul class="dropdown-menu slidedown">
+                                <li>
+                                    <a href="#" data-toggle="modal" data-target=".modMem">
+                                        <i class="fa fa-edit fa-fw"></i> Modifier le producteur
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-print fa-fw"></i> Imprimer cette carte
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <form class="form-inline">
+                            <div class="col-md-6">
+                                <img class="col-md-6 form-control-static" src="{{ producteur.image.webPath }}" alt="{{ producteur.image.altImg }}" />
+                                
+                                <br><br><br><br><br><br><br>
+                                <b>Coopérative :</b>
+                                <p class="form-control-static">{{ producteur.cooperative.sigleCoop }}</p>
+                                <br>
+                                <b>Sexe :</b>
+                                <p class="form-control-static">
+                                    {% if producteur.sexeMem == 'M' %}
+                                        Masculin
+                                    {% else %}
+                                        Feminin
+                                    {% endif %}
+                                </p>
+                            
+                            </div>
+                            <div class="col-md-6">
+                                
+                                <b>{{ producteur.prenomMem|upper }} {{ producteur.nomMem }}</b>
+                                <br>
+                                <b>Naissance :</b>
+                                <p class="form-control-static">{{ producteur.dateNaisMem|date('d/m/Y') }} à {{ producteur.lieuNaisMem }}</p>
+                                <br>
+                                <b>Pays d'origine :</b>
+                                <p class="form-control-static">{{ producteur.nationMem }}</p>
+                                <br>
+                                <b>Village ou résidence :</b>
+                                <p class="form-control-static">{{ producteur.villageMem }}</p>
+                                <br>
+                                <b>Contact(s) :</b>
+                                <p class="form-control-static">{{ producteur.contMem }}</p>
+                                
+
+                            </div>
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+            <div class="col-md-offset-1 col-md-3">
+                <div class="box box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">
+                            <i class="ion ion-ios-people"></i> Autres
+                        </h3>
+                        <div class="box-tools">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="box-body no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li>
+                                <a href="{{ path('gest_platform_trans_add') }}">
+                                    <i class="fa fa-tree"></i> Cacao
+                                    <span class="label label-success pull-right">128</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('gest_platform_trans_add') }}">
+                                    <i class="fa fa-tree"></i> Café
+                                    <span class="label label-warning pull-right">25</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('gest_platform_trans_add') }}">
+                                    <i class="fa fa-tree"></i> Hévéa
+                                    <span class="label label-danger pull-right">10</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- /.box-body -->
+                </div>
+                <!-- /. box -->
+            </div>
+            <!-- /.col -->
+        
+        </div>
+        
+    </section>
+    <!-- /.content -->
+
+
+    <!-- Modal d'ajout d'un produit -->
+    <div class="modal fade modMem example-modal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">
+                        <i class="fa fa-user-plus"></i> Nouvel producteur
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(formMem) }}
+
+                        {{ form_errors(formMem) }}
+
+                            <div class="form-group">
+                                {{ form_label(formMem.image, "Choisir la photo d'identité", {'label_attr': {'class': 'control-label'}})}}
+
+                                {{ form_errors(formMem.image) }}
+                                
+                                
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-image"></i></span>
+                                    {{ form_widget(formMem.image, {'attr': {'class': 'form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                {{ form_label(formMem.prenomMem, "Prénom(s) du producteur", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formMem.prenomMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.prenomMem) }}</label>
+                                      {{ form_widget(formMem.prenomMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.prenomMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formMem.nomMem, "Nom du producteur", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formMem.nomMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.nomMem) }}</label>
+                                      {{ form_widget(formMem.nomMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.nomMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+
+                            <div class="form-group">
+                                {{ form_label(formMem.dateNaisMem, "Date de naissance", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formMem.dateNaisMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.dateNaisMem) }}</label>
+                                      {{ form_widget(formMem.dateNaisMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.dateNaisMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formMem.lieuNaisMem, "Lieu de naissance", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formMem.lieuNaisMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.lieuNaisMem) }}</label>
+                                      {{ form_widget(formMem.lieuNaisMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.lieuNaisMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formMem.sexeMem, "Sexe", {'label_attr': {'class': 'control-label'}})}}
+
+                                {% if form_errors(formMem.sexeMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.sexeMem) }}</label>
+                                      {{ form_widget(formMem.sexeMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.sexeMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formMem.nationMem, "Pays d'origine", {'label_attr': {'class': 'col-sm-2 control-label'}})}}
+
+                                {% if form_errors(formMem.nationMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.nationMem) }}</label>
+                                      {{ form_widget(formMem.nationMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.nationMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formMem.nbEnfMem, "Nombre d'enfants", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formMem.nbEnfMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.nbEnfMem) }}</label>
+                                      {{ form_widget(formMem.nbEnfMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.nbEnfMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formMem.contMem, "Contact(s)", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formMem.contMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.contMem) }}</label>
+                                      {{ form_widget(formMem.contMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.contMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(formMem.villageMem, "Village ou lieu de résidence", {'label_attr': {'class': ' control-label'}})}}
+
+                                {% if form_errors(formMem.villageMem) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(formMem.villageMem) }}</label>
+                                      {{ form_widget(formMem.villageMem, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(formMem.villageMem, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                        {{ form_rest(formMem) }}
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+                    <button type="submit" class="btn btn-primary pull-right">Ajouter</button>
+                </div>
+                  <!-- /.modal-footer -->
+                {{ form_end(formMem) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout d'un produit -->
+
+{% endblock %}
+
+{% block javascripts %}
+    
+{% endblock %}

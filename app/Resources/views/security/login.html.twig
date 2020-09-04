@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8" />
+        <!-- Tell the description, keywords and author of this page  -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="Page de connexion ou de déconnexion d'AgriWeb" />
+        <meta name="keywords" content="" />
+        <meta name="author" content="Seeker225" />
+        <title> AgriWeb | {% block title %}Connexion{% endblock %} </title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport" />
+        <!-- Bootstrap 3.3.6 -->
+        <link rel="stylesheet" href="/USCAEP/web/backend/v2/bootstrap/css/bootstrap.min.css" />
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="/USCAEP/web/backend/v2/plugins/font-awesome/css/font-awesome.min.css" />
+        <!-- Theme style -->
+        <link rel="stylesheet" href="/USCAEP/web/backend/v2/dist/css/AdminLTE.min.css" />
+        <!-- Material Design -->
+        <link rel="stylesheet" href="/USCAEP/web/backend/v2/dist/css/bootstrap-material-design.min.css" />
+        <link rel="stylesheet" href="/USCAEP/web/backend/v2/dist/css/ripples.min.css" />
+        <link rel="stylesheet" href="/USCAEP/web/backend/v2/dist/css/MaterialAdminLTE.css" />
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="#"><b>AgriWeb</b> | Plateforme</a>
+            </div>
+            <!-- /.login-logo -->
+            {% block body %}
+                <div class="login-box-body">
+                    <p class="login-box-msg">Veuillez-vous connecter !!</p>
+
+                    <form action="{{ path('login') }}" method="post">
+                        <div class="form-group has-feedback">
+                            <input name="_username" type="text" class="form-control" placeholder="Matricule" autofocus />
+                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input name="_password" type="password" class="form-control" placeholder="Mot de passe">
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        </div>
+                        <div class="row">
+                            
+                            <div class="col-xs-offset-3 col-xs-6">
+                                <button type="submit" class="btn btn-primary btn-raised btn-block btn-flat">Connexion</button>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </form>
+
+                </div>
+                <!-- /.login-box-body -->
+            {% endblock %}
+        </div>
+        <!-- /.login-box -->
+
+        <!-- jQuery 2.2.3 -->
+        <script src="/USCAEP/web/backend/v2/plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <!-- Bootstrap 3.3.6 -->
+        <script src="/USCAEP/web/backend/v2/bootstrap/js/bootstrap.min.js"></script>
+        <!-- Material Design -->
+        <script src="/USCAEP/web/backend/v2/plugins/dist/js/material.min.js"></script>
+        <script src="/USCAEP/web/backend/v2/plugins/dist/js/ripples.min.js"></script>
+        <script>
+            $.material.init();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ culture.nomPrd|capitalize }}
+{% endblock %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="container">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3 font-weight-light">Cultures agricoles</h1>
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('homepage') }}">Accueil</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="{{ path('liste_activites') }}">Activités</a>
+            </li>
+            <li class="breadcrumb-item active">
+                Agriculture
+            </li>
+            <li class="breadcrumb-item active">
+                {{ culture.nomPrd|capitalize }}
+            </li>
+        </ol>
+
+        <!-- Content Row -->
+        <div class="row">
+
+            <div class="col-md-6">
+                {% if sliders == null %}
+                    <img src="/frontend/img/bg-500x300.png" class="img-fluid rounded mb-3 mb-md-0" alt="Première image">
+                {% else %}
+                    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                        <ol class="carousel-indicators">
+                            {% for nb in 0..(sliders|length|number_format - 1) %}
+
+                                {% if nb == 0 %}
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ nb }}" class="active"></li>
+                                {% else %}
+                                    <li data-target="#carouselExampleIndicators" data-slide-to="{{ nb }}"></li>
+                                {% endif %}
+
+                            {% endfor %}
+                            
+                        </ol>
+                        <div class="carousel-inner">
+                            {% for slider in sliders %}
+                                {% if slider.altImg == culture.nomPrd %}
+                                    <div class="carousel-item active" style="background-image: url('{{ slider.webPath }}')">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h4>{{ slider.altImg|capitalize }}</h4>
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="carousel-item" style="background-image: url('{{ slider.webPath }}')">
+                                        <div class="carousel-caption d-none d-md-block">
+                                            <h5>{{ slider.altImg|capitalize }}</h5>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                    
+                            {% endfor %}
+
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Précédant</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Suivant</span>
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="col-md-6">
+
+                
+                Nom du produit : {{ culture.nomPrd|capitalize }}<br>
+                Domaine d'activités : {{ culture.domPrd }} <br>
+                Catégorie du produit : {{ culture.groupPrd }}<br>
+                Quantité en stock : 30 unités<br>
+                Coopératives productrices : Aucune
+                <p>
+                    {% for slider in sliders %}
+                        {% if slider.altImg == culture.nomPrd %}
+                            {% autoescape %}
+                                {{ slider.descImg|raw }}
+                            {% endautoescape %}
+                        {% endif %}
+                    {% endfor %}
+                </p>
+
+                <a href="{{ path('details_produit', {'prod': culture.nomPrd }) }}" data-toggle="tooltip" data-placement="top" class="btn btn-warning" title="Stock actuel : {{ culture.stockPrd }} kilogrammes "><i class="fa fa-shopping-basket"></i> Commander</a>
+            </div>
+
+        </div>
+        <!-- /.row -->
+
+            <div class="row">
+                {% autoescape false %}
+                    {{ culture.presPrd }}
+                {% endautoescape %}
+            </div>
+
+
+    </div>
+{% endblock %}

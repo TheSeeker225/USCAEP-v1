@@ -1,0 +1,419 @@
+{% extends 'CoreBundle::admin.html.twig' %}
+
+{% block meta %}
+    <meta name="description" content="Liste des coopératives enregistrées" />
+    <meta name="keywords" content="région, département, coopérative" />
+{% endblock %}
+
+{% block title %}
+    Coopératives
+{% endblock %}
+{% block stylesheet %}
+
+{% endblock %}
+
+{% block body %}
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+      <h1>
+          Coopératives <small>Localisation et liste complète</small>
+      </h1>
+      <ol class="breadcrumb">
+          <li>
+              <a href="{{ path('core_homepage') }}">
+                  <i class="fa fa-desktop"></i> Tableau de bord
+              </a>
+          </li>
+          <li class="active">
+              <i class="fa fa-map"></i> Coopératives
+          </li>
+      </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+      
+    {% for message in app.session.flashbag.get('add-success') %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                x
+            </button>
+            
+            {% autoescape false %}
+                <p><i class="fa fa-check-circle"></i> {{ message }}</p>
+            {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+    {% for message in app.session.flashbag.get('supp-success') %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                x
+            </button>
+            
+            {% autoescape false %}
+                <p><i class="fa fa-trash"></i> {{ message }}</p>
+            {% endautoescape %}
+            
+        </div>
+    {% endfor %}
+
+      <!-- Default box -->
+      <div class="box">
+          <div class="box-header with-border">
+              <h3 class="box-title">
+                  <i class="fa fa-map-marker"></i> Liste des coopératives
+              </h3>
+              <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                      <i class="fa fa-cog"></i>
+                  </button>
+                  <ul class="dropdown-menu slidedown">
+                      <li>
+                          <a href="#" data-toggle="modal" data-target=".bs-addReg">
+                              <i class="fa fa-map fa-fw"></i> Nouvelle région
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#" data-toggle="modal" data-target=".bs-addDep">
+                              <i class="fa fa-map-marker fa-fw"></i> Nouveau département
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#" data-toggle="modal" data-target="#addCoop">
+                              <i class="fa fa-plus fa-fw"></i> Nouvelle coopérative 
+                          </a>
+                      </li>
+                      <li>
+                          <a href="#">
+                              <i class="fa fa-print fa-fw"></i> Imprimer
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+          </div>
+          <div class="box-body">
+              <table id="dataTable-coop" class="table table-bordered table-striped">
+                  <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Département</th>
+                        <th>Date d'adhésion</th>
+                        <th>Contacts</th>
+                        <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for cooperative in cooperatives %}
+                          <tr>
+                              <td>
+                                {% if cooperative.id >= 10 %}
+                                    0{{ cooperative.id }}/COOP
+                                {% else %}
+                                    00{{ cooperative.id }}/COOP
+                                {% endif %}
+                              </td>
+                              <td>{{ cooperative.nomCoop }}</td>
+                              <td>{{ cooperative.departement.nomDep }}</td>
+                              <td>
+                                  {{ cooperative.dateAdhCoop|date('d/m/Y') }}
+                              </td>
+                              <td>{{ cooperative.contCoop }}</td>
+                              <td class="tooltip-coop">
+                                  <a href="{{ path('core_coop_view', {'coop': cooperative.sigleCoop }) }}" data-toggle="tooltip" data-placement="top" title="Modifier" class="btn bg-orange"><i class="fa fa-pencil"></i></a>
+                                  <a href="{{ path('core_coop_del', {'coop': cooperative.sigleCoop}) }}" data-toggle="tooltip" data-placement="top" title="Supprimer" class="btn bg-red"><i class="fa fa-trash"></i></a>
+                              </td>
+                          </tr>
+                      {% endfor %}
+                  </tbody>
+              </table>
+          </div>
+          <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+  </section>
+  <!-- /.content -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="addCoop" tabindex="-1" role="dialog" aria-labelledby="addCoop" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="addCoop"> 
+                      <i class="fa fa-plus"></i> Nouvelle coopérative
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {{ form_start(form) }}
+                            <div class="form-group">
+                                {{ form_label(form.nomCoop, "Nom de la coopérative") }}
+                                {% if form_errors(form.nomCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.nomCoop) }}</label>
+                                      {{ form_widget(form.nomCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.nomCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.sigleCoop, "Sigle de la coopérative") }}
+                                {% if form_errors(form.sigleCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.sigleCoop) }}</label>
+                                      {{ form_widget(form.sigleCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.sigleCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.dateAdhCoop, "Date d'adhésion") }}
+                                {% if form_errors(form.dateAdhCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.dateAdhCoop) }}</label>
+                                      {{ form_widget(form.dateAdhCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.dateAdhCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.departement, "Nom du département") }}
+                                {% if form_errors(form.departement) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.departement) }}</label>
+                                      {{ form_widget(form.departement, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.departement, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.bPCoop, "Boîte postale") }}
+                                {% if form_errors(form.bPCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.bPCoop) }}</label>
+                                      {{ form_widget(form.bPCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.bPCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                             <div class="form-group">
+                                {{ form_label(form.sPCoop, "Sous-préfecture") }}
+                                {% if form_errors(form.sPCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.sPCoop) }}</label>
+                                      {{ form_widget(form.sPCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.sPCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.contCoop, "Contact(s)") }}
+                                {% if form_errors(form.contCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.contCoop) }}</label>
+                                      {{ form_widget(form.contCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.contCoop, {'attr': {'class': 'form-control'}}) }}
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form_label(form.descCoop, "Description de la coopérative") }}
+                                {% if form_errors(form.descCoop) != null %}
+                                  <div class="form-group has-error">
+                                      <label class="control-label">{{ form_errors(form.descCoop) }}</label>
+                                      {{ form_widget(form.descCoop, {'attr': {'class': 'form-control'}}) }}
+                                  </div>
+                                {% else %}
+                                    {{ form_widget(form.descCoop, {'attr': {'class': 'form-controlnycme tinymce'}}) }}
+                                {% endif %}
+                            </div>
+
+
+                        {{ form_rest(form) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Ajouter</button>
+                </div>
+                    {{ form_end(form) }}
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+    <!-- Modal d'ajout de région -->
+    <div class="modal fade bs-addReg">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+              <i class="fa fa-map"></i> Nouveau région
+            </h4>
+          </div>
+          <div class="modal-body">
+              {{ form_start(formReg) }}
+                  <div class="form-group">
+                      {{ form_label(formReg.nomReg, "Nom de la région") }}
+                      {% if form_errors(formReg.nomReg) != null %}
+                        <div class="form-group has-error">
+                            <label class="control-label">{{ form_errors(formReg.nomReg) }}</label>
+                            {{ form_widget(formReg.nomReg, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                      {% else %}
+                          {{ form_widget(formReg.nomReg, {'attr': {'class': 'form-control'}}) }}
+                      {% endif %}
+                  </div>
+
+                {{ form_rest(formReg) }}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                  <button type="submit" class="btn btn-warning">Ajouter</button>
+              </div>
+            {{ form_end(formReg) }}
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout de région -->
+
+   <!-- Modal d'ajout de départements -->
+    <div class="modal fade bs-addDep">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">
+              <i class="fa fa-map-marker"></i> Nouveau département
+            </h4>
+          </div>
+          <div class="modal-body">
+                  {{ form_start(formDep) }}
+
+                      <div class="form-group">
+                          {{ form_label(formDep.region, "Nom de la région") }}
+                          {% if form_errors(formDep.region) != null %}
+                            <div class="form-group has-error">
+                                <label class="control-label">{{ form_errors(formDep.region) }}</label>
+                                {{ form_widget(formDep.region, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                          {% else %}
+                              {{ form_widget(formDep.region, {'attr': {'class': 'form-control'}}) }}
+                          {% endif %}
+                      </div>
+
+                      <div class="form-group">
+                          {{ form_label(formDep.nomDep, "Nom du département") }}
+                          {% if form_errors(formDep.nomDep) != null %}
+                            <div class="form-group has-error">
+                                <label class="control-label">{{ form_errors(formDep.nomDep) }}</label>
+                                {{ form_widget(formDep.nomDep, {'attr': {'class': 'form-control'}}) }}
+                            </div>
+                          {% else %}
+                              {{ form_widget(formDep.nomDep, {'attr': {'class': 'form-control'}}) }}
+                          {% endif %}
+                      </div>
+          
+                    {{ form_rest(formDep) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-warning">Ajouter</button>
+                </div>
+            {{ form_end(formDep) }}
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /. Modal d'ajout de départements -->
+
+{% endblock %}
+
+{% block javascripts %}
+  <script type="text/javascript">
+        $(function () {
+            //TinyMCE
+            tinymce.init({
+                selector: "textarea.tinymce",
+                theme: "modern",
+                height: 300,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime media nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern imagetools'
+                ],
+                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                toolbar2: 'print preview media | forecolor backcolor emoticons',
+                image_advtab: true
+            });
+            tinymce.suffix = ".min";
+            tinyMCE.baseURL = '/USCAEP/web/backend/v2/plugins/tinymce';
+        });
+    </script>
+  <!-- Page script -->
+  <script>
+      $( function() {
+          $('.tooltip-coop').tooltip({
+            selector: "[data-toggle=tooltip]",
+            container: "body"
+          });
+
+          $('#dataTable-coop').DataTable( {
+              "language": {
+                  "info": "Affichage _START_ à _END_ parmi les _TOTAL_ éléménts",
+                  "infoEmpty": "Aucun achat trouvé !",
+                  "infoFiltered": "(Résultat parmi _MAX_ éléments) ",
+                  "loadingRecords": "Veuillez patienter quelques instants !",
+                  "lengthMenu": 'Afficher <select class="form-control">'+
+                  '<option value="10">10</option>'+
+                  '<option value="20">20</option>'+
+                  '<option value="30">30</option>'+
+                  '<option value="40">40</option>'+
+                  '<option value="50">50</option>'+
+                  '<option value="-1">Tous</option>'+
+                  '</select> éléments',
+                  "emptyTable": "Aucun achat n'a été enregistré !",
+                  "zeroRecords": "Aucun résultat trouvé !",
+                  "search": "Rechercher :",
+                  "paginate": {
+                      "previous": "Précédant",
+                      "next": "Suivant",
+                      "first": "Premier page",
+                      "last": "Dernière page"
+                  }
+              }
+          } );
+      } );
+        
+  </script>
+  <!-- DataTables JavaScript -->
+  <script src="/backend/vendor/datatables/js/jquery.dataTables.min.js"></script>
+  <script src="/backend/vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+  <script src="/backend/vendor/datatables-responsive/dataTables.responsive.js"></script>
+
+  {% endblock %}

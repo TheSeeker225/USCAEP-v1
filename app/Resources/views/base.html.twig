@@ -1,0 +1,337 @@
+{#*  Production and Design  *#}
+   {#*  Seeker225 AIJNWJ
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block meta %}
+
+        {% endblock %}
+        <title>
+            USCAEP | 
+            {% block title %}Union des Sociétés Coopératives Agricoles Entente et Progrès{% endblock %}
+        </title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('uscaep.ico') }}" />
+        <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" href="{{ asset('frontend/vendor/bootstrap/css/bootstrap.min.css') }}">
+        <!-- Custom CSS -->
+        <link href="{{ asset('frontend/css/modern-business.css') }}" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{{ asset('backend/v2/plugins/font-awesome/css/font-awesome.min.css') }}">
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        {% block stylesheets %}
+
+        {% endblock %}
+
+    </head>
+    <body>
+
+        <!-- Menu de navigation -->
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top" role="navigation">
+            <div class="container">
+
+                <!-- Logo, sigle de la société -->
+                <a class="navbar-brand" href="{{ path('homepage') }}"> USCAEP </a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menu principal du site -->
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-light" href="{{ path('homepage') }}"> Accueil </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-light" href="{{ path('about') }}"> Présentation </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-light" href="{{ path('liste_cooperatives') }}"> Nos coopératives </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-light" href="{{ path('liste_activites') }}"> Nos activités</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-light" href="{{ path('contact') }}"> Nos contacts </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+
+            </div>
+            <!-- /.container -->
+
+        </nav>
+            <!-- /.navigation -->
+
+        {% block body %}
+
+        {% endblock %}
+
+            <!-- Footer -->
+        <footer class="py-5 bg-warning">
+            <div class="container">
+                <div class="row">
+                    
+                    <div class="col-md-3">
+                        <h4 class="font-weight-light">A propos de l'USCAEP</h4>
+                        <p>Nous sommes une union de coopératives regroupant tous les producteurs agricoles, pisciculteurs, éleveurs des régions de la Mé et de l’Agnéby-Tiassa, avec pour finalité l’amélioration de leurs conditions de vie et de leur environnement.</p>
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <h4 class="font-weight-light">Notre activité</h4>
+                        <ul class="nav-footer">
+                            <li>
+                                <a href="{{ path('liste_cooperatives') }}">
+                                    <i class="fa fa-map"></i> Coopératives
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('liste_activites') }}">
+                                    <i class="fa fa-briefcase"></i> Champs d'action
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('boutique') }}">
+                                    <i class="fa fa-shopping-cart"></i> Espace publicitaire
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <i class="fa fa-user"></i> Espace membre
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-4">
+                        <h4 class="font-weight-light">Nos coordonnées</h4>
+                        <ul class="nav-footer">
+                            <li>
+                                <i class="fa fa-map-marker"></i> {{ contact.siegeUn }}
+                            </li>
+                            <li>
+                                <i class="fa fa-clock-o"></i> {{ contact.heurUn }}
+                            </li>
+                            <li>
+                                <a href="mailto:{{ contact.eMailUn }}">
+                                    <i class="fa fa-envelope-o"></i> {{ contact.eMailUn }}
+                                </a>
+                            </li>
+                            <li>
+                                <i class="fa fa-phone"></i> {{ contact.telUn }}
+                            </li>
+                            <li>
+                                <br />
+                                <a href="{{ contact.lnkFbUn }}"><i class="fa fa-facebook-square fa-2x"></i></a>
+                                <a href="#"><i class="fa fa-linkedin-square fa-2x"></i></a>
+                                <a href="#"><i class="fa fa-google-plus-square fa-2x"></i></a>
+                                <a href="#"><i class="fa fa-youtube-square fa-2x"></i></a>
+                                <a href="#"><i class="fa fa-instagram fa-2x"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-md-2 col-sm-2 mb-3">
+                        <img class="img-fluid" src="/USCAEP/web/frontend/img/750x450/uscaep-750x450.png" alt="">
+                    </div>
+                </div>
+                <br />
+                <p class="m-0 pull-left text-black font-weight-light">Copyright &copy; USCAEP 2017 - Tous droits réservés</p>
+                <em style="font-size:14px;font-family:'Brush Script MT';" class="pull-right"> 
+                    Designed by Seeker225
+                </em>
+            </div>
+          <!-- /.container -->
+        </footer>
+
+        <!-- jQuery 3.2.1 -->
+        <script src="{{ asset('frontend/vendor/jquery/jquery.min.js') }}"></script>
+
+        <!-- Bootstrap 4.0 -->
+        <script src="{{ asset('frontend/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+        <!-- Script to Activate the Carousel -->
+        <script>
+            
+
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+                $('.carousel').carousel({
+                    interval: 5000 //changes the speed
+                });
+            });
+        </script>
+
+    {% block javascripts %}
+
+    {% endblock %}
+
+    </body>
+</html>
+ Develop for a better life #}
+
+ <!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="NYZ Seeker225">
+        {% block meta %}
+
+        {% endblock %}
+        <title>
+        USCAEP | 
+        {% block title %}Union des Sociétés Coopératives Agricoles Entente et Progrès{% endblock %}
+        </title>
+        <link rel="icon" type="image/x-icon" href="{{ asset('uscaep.ico') }}" />
+
+        <!-- Bootstrap core CSS -->
+        <link href="{{ asset('frontend/assets/css/bootstrap-material-design.css') }}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="/USCAEP/web/backend/v2/plugins/font-awesome/css/font-awesome.min.css" />
+
+        <!-- Custom styles for this template -->
+        <link href="{{ asset('frontend/assets/css/product.css') }}" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <nav class="site-header sticky-top py-1">
+          <div class="container d-flex flex-column flex-md-row justify-content-between">
+            <a class="py-2" href="{{ path('homepage') }}">
+              USCAEP
+            </a>
+            <a class="py-2 d-none d-md-inline-block menu-item" href="{{ path('homepage') }}"> Accueil </a>
+            <a class="py-2 d-none d-md-inline-block menu-item" href="{{ path('about') }}"> Présentation </a>
+            <a class="py-2 d-none d-md-inline-block menu-item" href="{{ path('liste_cooperatives') }}"> Nos coopératives </a>
+            <a class="py-2 d-none d-md-inline-block menu-item" href="{{ path('liste_activites') }}"> Nos activités </a>
+            <a class="py-2 d-none d-md-inline-block menu-item" href="{{ path('contacts') }}"> Nos contacts </a>
+            <a class="py-2 d-none d-md-inline-block menu-item" href="{{ path('boutique') }}"> Espace publicitaire </a>
+          </div>
+        </nav>
+
+        {% block body %}
+
+        {% endblock %}
+
+        <footer class="row footer py-5">
+                
+            <!--Footer links-->
+            <div class="container col-md-12">
+                <div class="row mt-4">
+                    <!--First column-->
+                    <div class="col-lg-3 col-md-6 text-center">
+                        
+                        <img class="img-fluid" src="/USCAEP/web/frontend/img/750x450/uscaep-750x450.png" alt="Logo USCAEP">
+                         © 2017 Copyright USCAEP
+                        
+                    </div>
+                    <!--/.First column-->
+                    <hr class="w-100 clearfix d-sm-none">
+                    <!--Second column-->
+                    <div class="col-lg-3 col-md-3 ml-auto">
+                         <h5 class="title mb-3">
+                            <strong>A propos de ...</strong>
+                        </h5>
+                        <small>
+                            Nous sommes une union de coopératives ayant pour finalité l’amélioration des conditions de vie des producteurs et de leur environnement.
+                        </small>
+                    </div>
+                    <!--/.Second column-->
+                    <hr class="w-100 clearfix d-sm-none">
+                    <!--Third column-->
+                    <div class="col-lg-3 col-md-3 ml-auto">
+                        <h5 class="title mb-3">
+                            <strong>Notre activité</strong>
+                        </h5>
+                        <ul class="list-unstyled text-small">
+                            <li>
+                                <a href="{{ path('liste_cooperatives') }}">
+                                    Coopératives
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('liste_activites') }}">
+                                    Champs d'action
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('boutique') }}">
+                                    Espace publicitaire
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('login') }}">
+                                    Espace membre
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--/.Third column-->
+                    <hr class="w-100 clearfix d-sm-none">
+                    <!--Fourth column-->
+                    <div class="col-lg-3 col-md-3 ml-auto">
+                        <h5 class="title mb-3">
+                            <strong>Nous joindre</strong>
+                        </h5>
+                        <address>
+                            <small>
+                                <ul class="list-unstyled text-small">
+                                    <li>
+                                        <i class="fa fa-map-marker"></i> {{ contact.siegeUn }}
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-clock-o"></i> {{ contact.heurUn }}
+                                    </li>
+                                    <li>
+                                        <a href="mailto:{{ contact.eMailUn }}">
+                                            <i class="fa fa-envelope-o"></i> {{ contact.eMailUn }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-phone"></i> {{ contact.telUn }}
+                                    </li>
+                                </ul>
+                            </small>
+                        </address>
+                    </div>
+                    <!--/.Fourth column-->
+                </div>
+            </div>
+            <!--/.Footer links-->
+
+        </footer>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="{{ asset('frontend/assets/js/jquery-3.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/popper.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/bootstrap-material-design.js') }}"></script>
+        <script src="{{ asset('frontend/assets/js/holder.js') }}"></script>
+        <script>
+                $(function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                    Holder.addTheme('thumb', {
+                                bg: '#55595c',
+                                fg: '#eceeef',
+                                text: 'Thumbnail'
+                            });
+                });
+            
+            $('[data-toggle="tooltip"]').tooltip();
+        </script>
+    </body>
+</html>

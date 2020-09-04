@@ -1,0 +1,190 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Notre boutique
+{% endblock %}
+
+{% block body %}
+    <!-- Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading/Breadcrumbs -->
+        <h1 class="mt-4 mb-3">
+            Bienvenue sur notre espace publicitaire
+        </h1>
+
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{{ path('homepage') }}">Accueil</a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="{{ path('boutique') }}">Boutique</a>
+            </li>
+            <li class="breadcrumb-item active">{{ produit.nomPrd|capitalize }}</li>
+        </ol>
+        <!-- /.row -->
+
+        <div class="alert alert-info col-md-12">
+            <button type="button" class="close" data-dismiss="alert" arial-label="Fermer">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {% for message in app.session.flashbag.get('commande') %}
+                {% autoescape false %}
+                    <p> {{ message }}</p>
+                {% endautoescape %}
+            {% endfor %}
+        </div>
+
+        <br>
+        <div class="d-md-flex flex-md-equal w-100 my-md-1 pl-md-1 p-3 p-md-3 p-lg-3 m-md-1">
+
+            <div class="bg-dark text-white text-center p-1 p-md-1 col-md-3">
+            
+                <div class="col-md-12 text-center p-3 p-md-3">
+                    
+                    <h3>Contenu du panier</h3>
+                    <hr>
+                    <p>
+                        {% if panier|length == 0 %}
+                            Aucun article dans le panier
+                          {% else %}
+                            Votre panier contient {{ panier|length }} produits.
+                          {% endif %}<br>
+                        <a data-toggle="modal" data-target="#myModal" class="btn bg-orange btn-block">
+                            <i class="fa fa-paper-plane-o"></i> Soumettre
+                        </a>
+                    </p>
+
+                </div>
+
+                <div class="col-md-12 p-3 p-md-3">
+
+                    <h3>Catégories</h3>
+                    <hr>
+                    <div class="market">
+                        <a href="#cultures" class="list-group-item">Cultures de rente</a>
+                        <a href="#cereales" class="list-group-item">Céréales</a>
+                        <a href="#fruits" class="list-group-item">Fruits</a>
+                        <a href="#legumes" class="list-group-item">Légumes</a>
+                        <a href="#derives" class="list-group-item">Produits dérivés</a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-12 text-center p-3 p-md-3">
+                    <h3>Espace membre</h3>
+                    <hr>
+                    <p> 
+                        <strong class="text-danger">Accès restreint aux membres !!</strong>
+                        <br><br>
+                        <a href="{{ path('login') }}" class="btn bg-orange btn-block">
+                            Se connecter
+                        </a>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-left overflow-hidden">
+                
+                <form method="get" action="{{ path('ajouter_produit', {'id' :  produit.id}) }}">
+
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {# if images == [] %}
+
+                                        <div class="mb-4 alert alert-warning" role="alert">
+                                            Les produits de cette catégorie ne sont pas disponibles
+                                        </div>
+
+                                    {% else %}
+
+                                        <a href="#">
+                                            <img class="img-fluid rounded" src="{{ images.0.urlImg }}" alt="{{ images.0.altImg }}">
+                                        </a>
+
+                                    {% endif #}
+                                    
+                                </div>
+                                <div class="col-md-6">
+                        
+                                {% autoescape false %}
+                                <h4>Vous avez sélectionné le {{ produit.nomPrd }}</h4><br>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        Domaine : <strong class="badge badge-success">{{ produit.domPrd }}</strong>
+                                    </li>
+                                    <li>
+                                        Il fait partie des <em>{{ produit.groupPrd|lower }}</em>
+                                    </li>
+                                    <li>
+                                        Stock disponible : <span class="text-warning">10000 tonnes</span>
+                                    </li>
+                                </ul>
+
+                                {% endautoescape %}
+
+                                {% if panier[produit.id] is not defined %}
+
+                                    <div class="form-group">
+
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                Quantité :
+                                            </span>
+                                            <input type="number" name="qte" step="100" class="form-control" />
+                                            <span class="input-group-addon">kilogrammes</span>
+                                        </div>
+                                    </div>                                                                              
+                                    <input class="btn btn-warning" type="submit" value="Ajouter" name="add" />
+                                    
+                                {% else %}
+                                    <a href="{{ path('boutique') }}" class="btn btn-primary">
+                                        Ce produit est déjà dans le panier
+                                    </a>
+                                {% endif %}
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+                <!-- /.card -->
+
+                <!--
+                <div class="card card-outline-secondary my-4">
+                  <div class="card-header">
+                    Product Reviews
+                  </div>
+                  <div class="card-body">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis et enim aperiam inventore, similique necessitatibus neque non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum. Sequi mollitia, necessitatibus quae sint natus.</p>
+                    <small class="text-muted">Posted by Anonymous on 3/1/17</small>
+                    <hr>
+                    <a href="#" class="btn btn-success">Leave a Review</a>
+                  </div>
+                </div>
+                <!-- /.card -->
+
+            </div>
+            <!-- /.row -->
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+
+
+
+{% endblock %}
